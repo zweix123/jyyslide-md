@@ -15,3 +15,8 @@ https://revealjs.com/fragments/
     print(txt)
     exit(0)
 ```
+
+
+# 鸣谢
++ 感谢南京大学蒋炎岩老师录制了如此优质的操作系统课程
++ 感谢[顾若水](https://github.com/ruoshui255)提供的模板
