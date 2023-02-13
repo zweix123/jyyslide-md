@@ -18,5 +18,5 @@ https://revealjs.com/fragments/
 
 
 # 鸣谢
-+ 感谢南京大学蒋炎岩老师录制了如此优质的操作系统课程
++ 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)提供的模板
