@@ -9,6 +9,9 @@ packages = [{include = "jyyslide_md"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 black = "^23.1.0"
+markdown = "^3.4.1"
+pyquery = "^2.0.0"
+pygments = "^2.14.0"
 
 
 [build-system]
