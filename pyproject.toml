@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "jyyslide-md"
+version = "0.1.0"
+description = ""
+authors = ["zweix <1979803044@qq.com>"]
+readme = "README.md"
+packages = [{include = "jyyslide_md"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+black = "^23.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
