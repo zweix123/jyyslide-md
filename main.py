@@ -1,62 +1,48 @@
 #! /usr/bin/python3
-# pip3 install pyquery Markdown
 
-import os
-import sys
+
+import os, sys
+import chardet
 import xml.etree.ElementTree as etree
+from pyquery import PyQuery as pq
+import markdown
+from markdown import Extension
+from markdown.blockprocessors import BlockProcessor
 
 
-def run_help():
-    txt = """
-Usage: python3 md.py demo.md
-request: pip3 install markdown pyquery  pygments
-
-一些自定义解释标记
-https://revealjs.com/fragments/
-2个横线(--)  表示 fragment
-3个横线(---) 表示 section
-4个横线(----) 表示 vertical slides
-5个横线以上 md 默认展示方式 <hr>
-    
-"""
-    print(txt)
-    exit(0)
+#
+def get_file_code(file_path):  # 检测文件编码格式, 效率较低
+    res = str()
+    with open(file_path, "rb") as f:
+        res = chardet.detect(f.read())["encoding"]
+    return res
 
 
-try:
-    from pyquery import PyQuery as pq
-    import markdown
-    from markdown import Extension
-    from markdown.blockprocessors import BlockProcessor
-except ImportError:
-    run_help()
+def read(filepath):  # 读取文件所有内容
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding=get_file_code(filepath)) as f:
+            content = f.read()
+            return content
+    else:
+        print("{} is not exists".format(filepath))
+        exit(-1)
 
 
+# 程序配置
 output_folder = "."
-
-template_html = 
+template_html = read("btemplate.html")
 
 
 def write(data, filename):
     file = os.path.join(output_folder, filename)
     print("output name <{}>".format(file))
 
-    with open(file, 'w+', encoding="utf-8") as f:
+    with open(file, "w+", encoding="utf-8") as f:
         s = f.write(data)
 
 
-def get(filename):
-    if os.path.exists(filename):
-        with open(filename, 'r', encoding="utf-8") as f:
-            s = f.read()
-            return s
-    else:
-        print("{} not exist".format(filename))
-        exit(-1)
-
-
 def add_wrap(e):
-    items = e('h1').parent()
+    items = e("h1").parent()
     # items = e('h1')
 
     print("h1 {}".format(len(items)))
@@ -67,12 +53,12 @@ def add_wrap(e):
 
 
 class_data = {
-    'ul': " list-disc font-serif",
-    'li': " ml-8",
+    "ul": " list-disc font-serif",
+    "li": " ml-8",
     "h2": " text-xl mt-2 pb-2 font-sans",
     "h1": " text-2xl mt-2 font-sans",
     "p": " font-serif my-1",
-    "pre": " bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2"
+    "pre": " bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
 }
 
 
@@ -90,7 +76,7 @@ def gen_html(md_html: str, output):
     add_wrap(page)
     add_class(page)
 
-    items = page('body').children()
+    items = page("body").children()
     print("div {}".format(len(items)))
 
     template = template_html
@@ -111,7 +97,7 @@ class BoxBlockProcessor(BlockProcessor):
         if self.first:
             self.first = False
 
-            e = etree.SubElement(parent, 'div')
+            e = etree.SubElement(parent, "div")
             # e.set('style', 'display: inline-block; border: 1px solid red;')
             self.parser.parseBlocks(e, blocks)
             # remove used blocks
@@ -123,14 +109,11 @@ class BoxBlockProcessor(BlockProcessor):
 
 class BoxExtension(Extension):
     def extendMarkdown(self, md):
-        md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), 'box', 175)
+        md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), "box", 175)
 
 
 def md_to_html(md: str) -> str:
-    extensions = [
-        BoxExtension(),
-        'meta', 'fenced_code', "codehilite", 'attr_list'
-    ]
+    extensions = [BoxExtension(), "meta", "fenced_code", "codehilite", "attr_list"]
     # html = markdown.markdown(text, extensions=[MyExtension()])
     res = markdown.markdown(md, extensions=extensions)
     return res
@@ -212,7 +195,7 @@ def md_parse(md: str, output_file):
     gen_html(md_html, output_file)
 
 
-def main():
+if __name__ == "__main__":
     # if len(sys.argv) == 1:
     #     run_help()
     #     print("no input file")
@@ -230,11 +213,7 @@ def main():
     #
     # output_filename = "{}.html".format(name)
 
-    data = demo
+    data = read("slide.md")
     output_filename = "demo.html"
 
     md_parse(data, output_filename)
-
-
-if __name__ == '__main__':
-    main()
