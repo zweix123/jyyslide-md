@@ -26,6 +26,15 @@ print("hello world")
 
 ----
 
+## 文字格式
+**加粗**<br>
+*斜体*<br>
+~~删除线~~ (markdown) : <strike>删除线</strike> (html)<br>
+==高亮== (markdown) : <mark>高亮</mark> (html)<br>
+<font color="red">标红</font>
+
+----
+
 ## 列表
 + 123
 + 456

@@ -10,6 +10,9 @@
 > 更多的`-`则是Mardown的`<br>`
 
 + Markdown原生语法适配：
+    + 文字格式：
+        + 加粗、斜体
+        + 通过html实现删除线、高亮、标红
     + 注释
     + 列表
     + 代码和代码高亮
@@ -37,7 +40,7 @@
     ```bash
     poetry run python main.py ./test/slide.md
     ```
-
+即可在`jyyslide-md/test/`目录下找到`slide.html`文件，查看效果
 ## 鸣谢
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)提供的模板
