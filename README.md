@@ -1,3 +1,5 @@
+一个通过Mardown方言生成像[这样的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具
+
 ## Grammer
 + 水平幻灯片使用`\n---\n`（三个）分割
 + 垂直幻灯片使用`\n----\n`（四个）分割
@@ -22,7 +24,7 @@
 
 + 安装：`poetry install`
 
-+ 使用：`poetry run python main.py`, 即在当前目录生成处理好的html文件
++ 使用：`poetry run python [${file}]`, 即为markdown文件生成对应的html文件（相同目录下）
 
 ## Quickstart
 

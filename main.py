@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 # coding=utf-8
 
-import os
+import os, sys, re
 import chardet
 import xml.etree.ElementTree as etree
 from pyquery import PyQuery as pq
@@ -106,8 +106,12 @@ def vertical_to_fragment(vertical: str) -> str:
     fragments = vertical.split(fragment_sep)
 
     template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
+    
+    # fragment_list = list()
+    # for i in range(len(fragments)):
+    #     fragment_list.append(template.format(i + 1, md_to_html(fragments[i])))
+    
     fragment_list = [md_to_html(fragments[0])]
-
     for i in range(1, len(fragments)):
         fragment_list.append(template.format(i - 1, md_to_html(fragments[i])))
 
@@ -187,7 +191,6 @@ def process(file="./slide.md"):
 
 if __name__ == "__main__":
     # process()
-    import sys
 
     for file in sys.argv[1:]:
         print("working in {}".format(file), end=" ")
