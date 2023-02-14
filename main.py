@@ -172,7 +172,7 @@ def md_to_jyyhtml(context: str, filepath):
     pass
 
 
-def process(file="./slide.md"):
+def process(file=".\\test\\slide.md"):
     filename = os.path.basename(file)
     filepath = os.path.abspath(file)
     output_filename = os.path.splitext(filename)[0] + ".html"
@@ -190,10 +190,9 @@ def process(file="./slide.md"):
 
 
 if __name__ == "__main__":
-    # process()
-
-    for file in sys.argv[1:]:
-        print("working in {}".format(file), end=" ")
-        process(file)
-        print(" done")
+    process()
+    # for file in sys.argv[1:]:
+    #     print("working in {}".format(file), end=" ")
+    #     process(file)
+    #     print(" done")
     pass

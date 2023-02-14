@@ -44,3 +44,21 @@
 ## 鸣谢
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)提供的模板
+
+## Log
+
++ [ ] 实现淡入淡出：
+
+    ```html
+    <section data-auto-animate>
+        <h1>自动动画</h1>
+    </section>
+    <section data-auto-animate>
+        <h1 style="color: red;">自动动画</h1>
+    </section>
+    <section data-auto-animate>
+        <h1 style="color: blue;">自动动画</h1>
+    </section>
+    ```
+
+    + js已插入
