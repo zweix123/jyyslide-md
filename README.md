@@ -1,11 +1,22 @@
-一个通过Mardown方言生成像[这样的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具
+- [jyyslide-md](#jyyslide-md)
+  - [Grammer](#grammer)
+  - [Install](#install)
+  - [Quickstart](#quickstart)
+  - [Acknowledgement](#acknowledgement)
+  - [Log](#log)
+
+
+# jyyslide-md
+
+一款通过Mardown方言生成[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)主题的工具
 
 ## Grammer
+
 + 水平幻灯片使用`\n---\n`（三个）分割
 + 垂直幻灯片使用`\n----\n`（四个）分割
 + fragment使用`\n--\n`（两个）分割
     >更多样式见[reveal.js官网](https://revealjs.com/fragments/)
-    >其实又想通过`\n--x\n`的形式适配各种fragment，但是后来发现没有必要
+    >目前只支持次序出现，后续考虑通过`\n--x\n`的形式适配各种fragment
 
 > 更多的`-`则是Mardown的`<br>`
 
@@ -22,16 +33,16 @@
     + 表格（不够美观，后续修改）
 
 ## Install
+>本项目使用Python3运行、使用poetry管理python虚拟环境，请确保本机有版本合适的Python和装有第三方Python库poetry。下面提供足够的使用方法，如果想进一步学习可尝试我的[poetry笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)
 
->需要使用Python3和Python3虚拟环境管理库poetry
+1. 安装：`poetry install`
 
-+ 安装：`poetry install`
-
-+ 使用：`poetry run python [${file}]`, 即为markdown文件生成对应的html文件（相同目录下）
+2. 使用：`poetry run python [file]`, 即为markdown文件生成对应的html文件（相同目录下）
 
 ## Quickstart
 
-安装后在项目目录下运行：
+1. 安装：`poetry install`
+
 + win:
     ```bash
     poetry run python main.py .\test\slide.md
@@ -40,25 +51,14 @@
     ```bash
     poetry run python main.py ./test/slide.md
     ```
-即可在`jyyslide-md/test/`目录下找到`slide.html`文件，查看效果
-## 鸣谢
+即可在`jyyslide-md/test/`目录下找到`slide.html`文件，打开查看效果
+
+## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)提供的模板
 
 ## Log
 
-+ [ ] 实现淡入淡出：
-
-    ```html
-    <section data-auto-animate>
-        <h1>自动动画</h1>
-    </section>
-    <section data-auto-animate>
-        <h1 style="color: red;">自动动画</h1>
-    </section>
-    <section data-auto-animate>
-        <h1 style="color: blue;">自动动画</h1>
-    </section>
-    ```
-
-    + js已插入
++ [ ] 完善对fragment支持的相关语句
++ [ ] 实现淡入淡出动画
++ [ ] 实现自动导出成完毕的网页

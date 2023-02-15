@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "jyyslide_md"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 black = "^23.1.0"
 markdown = "^3.4.1"
 pyquery = "^2.0.0"

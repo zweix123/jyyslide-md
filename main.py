@@ -190,9 +190,9 @@ def process(file=".\\test\\slide.md"):
 
 
 if __name__ == "__main__":
-    process()
-    # for file in sys.argv[1:]:
-    #     print("working in {}".format(file), end=" ")
-    #     process(file)
-    #     print(" done")
+    # process()
+    for file in sys.argv[1:]:
+        print("working in {}".format(file), end=" ")
+        process(file)
+        print(" done")
     pass
