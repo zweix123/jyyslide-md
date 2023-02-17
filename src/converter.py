@@ -2,42 +2,14 @@
 # coding=utf-8
 
 import os
-import chardet
+
 import xml.etree.ElementTree as etree
 from pyquery import PyQuery as pq
 import markdown
 from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
 
-# settings
-template_html = str()
-template_html_from = "./src/static/template/template_c.html"
-
-# infrastructure
-def get_file_code(file_path):  # 检测文件编码格式, 效率较低
-    res = str()
-    with open(file_path, "rb") as f:
-        res = chardet.detect(f.read())["encoding"]
-    return res
-
-
-def read(filepath):  # 读取文本文件内容
-    if os.path.exists(filepath):
-        with open(filepath, "r", encoding=get_file_code(filepath)) as f:
-            content = f.read()
-            return content
-    else:
-        print("{} is not exists".format(filepath))
-        exit(-1)
-
-
-def write(filepath, data):  # 向文本文件(覆)写入内容
-    # with open(filepath, "wb") as f:
-    #     f.write(b"Hello World!")
-    # with open(filepath, "w", encoding=get_file_code(filepath)) as f:
-    #     f.write(data)
-    with open(filepath, "w", encoding="UTF-8") as f:
-        f.write(data)
+import src.lib
 
 
 # div处理
@@ -167,7 +139,7 @@ def md_to_jyyhtml(context: str, filepath):
     pass
 
 
-def process(file):
+def converter(file):
     filename = os.path.basename(file)
     filepath = os.path.abspath(file)
     output_filename = os.path.splitext(filename)[0] + ".html"
