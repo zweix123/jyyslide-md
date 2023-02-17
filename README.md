@@ -1,64 +1,47 @@
-- [jyyslide-md](#jyyslide-md)
-  - [Grammer](#grammer)
-  - [Install](#install)
-  - [Quickstart](#quickstart)
-  - [Acknowledgement](#acknowledgement)
-  - [Log](#log)
-
-
 # jyyslide-md
 
-一款通过Mardown方言生成[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)主题的工具
+一款通过简单的Mardown方言生成类似[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具。
 
 ## Grammer
+>互联网有多种构建网页幻灯片的框架，基本都有自己的Markdown方言，不过有一些习惯上的用法可循，jyyslide-md尽可能遵循这种习惯。
+>功能上的设计从幻灯片的应用场景出发，在使用尽可能少的语法情况下提供尽可能足够的功能。
 
 + 水平幻灯片使用`\n---\n`（三个）分割
 + 垂直幻灯片使用`\n----\n`（四个）分割
-+ fragment使用`\n--\n`（两个）分割
-    >更多样式见[reveal.js官网](https://revealjs.com/fragments/)
-    >目前只支持次序出现，后续考虑通过`\n--x\n`的形式适配各种fragment
++ 具有`data-fragment-index`属性的Fragments使用`\n<!-- -->\n`分割
+  + 语法对标`reveal-md`同时后续可能开发支持其他属性Fragments
+  + 默认次序从0开始，所以请在最开始的一段的上面同样使用分隔符（不然包括标题在内的其他部分都属于第一段，而次序从0开始，即进入这张幻灯片时什么也没有）  
+    对应着最后一块fragment后面则不需要分隔符（）
+  + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
 
-> 更多的`-`则是Mardown的`<br>`
+---
 
-+ Markdown原生语法适配：
++ 对Markdown原生语法适配情况：
     + 文字格式：
-        + 加粗、斜体
-        + 通过html实现删除线、高亮、标红
-    + 注释
-    + 列表
-    + 代码和代码高亮
-        >reveal-md和slidev支持的特定行高亮不支持
-    + 引用
-    + 数学公式
-    + 表格（不够美观，后续修改）
+        + 通过Markdown原生语法支持加粗、斜体
+        + 通过插入html支持删除线、高亮、标红
+    + 支持注释
+    + 支持列表
+    + 支持代码和代码高亮
+        >reveal-md和slidev支持的代码特定行高亮和有序高亮不支持
+    + 支持引用（链接和图片）
+    + 支持数学公式
+    + 支持表格（但蒋老师提供的CSS没有对表格的美化，所以建议不使用）
 
 ## Install
->本项目使用Python3运行、使用poetry管理python虚拟环境，请确保本机有版本合适的Python和装有第三方Python库poetry。下面提供足够的使用方法，如果想进一步学习可尝试我的[poetry笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)
+>本项目使用Python3开发，使用第三方库poetry进行库管理，请用户确保本机有**版本**合适的Python并装有poetry，下面提供足够的使用方法，如果像相对系统的学习，可尝试我的[poetry笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)
 
-1. 安装：`poetry install`
-
-2. 使用：`poetry run python [file]`, 即为markdown文件生成对应的html文件（相同目录下）
+0. 下载项目并进入项目根目录
+1. 安装第三方库：`poetry install`
+2. 目录`bin`有各种shell的命令
+    + `cmd`：`.\bin\jyyslide-md.bat file`
+    + `powershell`：`.\bin\jyyslide-md.ps1 file`
+    + `bash`：`./bin/jyyslide-md file`
+    
+    会在`file`目录下生成`dist`目录，其中包含网页幻灯片所需的所有文件
 
 ## Quickstart
-
-1. 安装：`poetry install`
-
-+ win:
-    ```bash
-    poetry run python main.py .\test\slide.md
-    ```
-+ linux:
-    ```bash
-    poetry run python main.py ./test/slide.md
-    ```
-即可在`jyyslide-md/test/`目录下找到`slide.html`文件，打开查看效果
 
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)提供的模板
-
-## Log
-
-+ [ ] 完善对fragment支持的相关语句
-+ [ ] 实现淡入淡出动画
-+ [ ] 实现自动导出成完毕的网页
