@@ -7,6 +7,7 @@ from markdown.blockprocessors import BlockProcessor
 
 from src.lib import *
 
+template_html = str()
 
 # div处理
 def add_wrap(e):
@@ -126,7 +127,8 @@ def md_to_jyyhtml(context: str, filepath):
 
     items = page("body").children()
 
-    template = read(template_html_from)
+    global template_html
+    template = template_html
     sections = "\n".join([str(pq(e)) for e in items])
 
     result = template.replace("{}", sections)
@@ -141,12 +143,14 @@ def converter(file):
     output_filename = os.path.splitext(filename)[0] + ".html"
     output_foldpath = os.path.join(filepath_pre, "dist")
 
-    shutil.rmtree(output_foldpath)
+    if os.path.exists(output_foldpath):
+        shutil.rmtree(output_foldpath)
     # os.mkdir(output_foldpath)
-    shutil.copytree("D:\Workspace\jyyslide-md\src\static", os.path.join(output_foldpath, "static"))
+    shutil.copytree("./src/static", os.path.join(output_foldpath, "static"))
 
     output_filepath = os.path.join(output_foldpath, output_filename)
 
+    global template_html
     template_html = read(template_html_from)
     title = ".".join(filename.split(".")[:-1])
     template_html = template_html.replace("{{title}}", title)
