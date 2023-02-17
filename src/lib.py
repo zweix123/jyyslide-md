@@ -1,6 +1,8 @@
 import os
 import chardet
 
+from src.settings import *
+
 
 def get_file_code(file_path):  # 检测文件编码格式, 效率较低
     res = str()
@@ -15,7 +17,8 @@ def read(filepath):  # 读取文本文件内容
             content = f.read()
             return content
     else:
-        print("{} is not exists".format(filepath))
+        print("now in {}".format(os.getcwd()))
+        print("the path {} is not exists".format(filepath))
         exit(-1)
 
 

@@ -1,15 +1,11 @@
-#! /usr/bin/python3
-# coding=utf-8
-
-import os
-
+import os, shutil
 import xml.etree.ElementTree as etree
 from pyquery import PyQuery as pq
 import markdown
 from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
 
-import src.lib
+from src.lib import *
 
 
 # div处理
@@ -130,8 +126,7 @@ def md_to_jyyhtml(context: str, filepath):
 
     items = page("body").children()
 
-    global template_html
-    template = template_html
+    template = read(template_html_from)
     sections = "\n".join([str(pq(e)) for e in items])
 
     result = template.replace("{}", sections)
@@ -142,15 +137,23 @@ def md_to_jyyhtml(context: str, filepath):
 def converter(file):
     filename = os.path.basename(file)
     filepath = os.path.abspath(file)
+    filepath_pre = filepath.split(filename)[0]
     output_filename = os.path.splitext(filename)[0] + ".html"
-    output_foldpath = filepath.split(filename)[0]
+    output_foldpath = os.path.join(filepath_pre, "dist")
+
+    shutil.rmtree(output_foldpath)
+    # os.mkdir(output_foldpath)
+    shutil.copytree("D:\Workspace\jyyslide-md\src\static", os.path.join(output_foldpath, "static"))
+
     output_filepath = os.path.join(output_foldpath, output_filename)
 
-    global template_html
     template_html = read(template_html_from)
     title = ".".join(filename.split(".")[:-1])
     template_html = template_html.replace("{{title}}", title)
 
     context = read(filepath)
     md_to_jyyhtml(context, output_filepath)
+
+    
+
     pass

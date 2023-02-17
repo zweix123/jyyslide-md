@@ -33,14 +33,19 @@
 
 0. 下载项目并进入项目根目录
 1. 安装第三方库：`poetry install`
-2. 目录`bin`有各种shell的命令
-    + `cmd`：`.\bin\jyyslide-md.bat file`
-    + `powershell`：`.\bin\jyyslide-md.ps1 file`
-    + `bash`：`./bin/jyyslide-md file`
-    
-    会在`file`目录下生成`dist`目录，其中包含网页幻灯片所需的所有文件
+
+## Use
+
+`python3 -m poetry run python main.py FILE`，即可按照生成
 
 ## Quickstart
+
+[下载后](#Install)运行命令
+```
+python3 -m poetry run python main.py test/slide.md
+```
+
+即可在`test/dist`目录下找到完整网页
 
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
