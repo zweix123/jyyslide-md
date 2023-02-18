@@ -11,34 +11,44 @@ from src.settings import *
 from src.lib import *
 
 
-def vertical_to_fragment(vertical: str) -> str:
-    fragment_sep = "\n<!-- -->\n"
-    fragments = vertical.split(fragment_sep)
+def vertical_to_animate(vertical: str) -> str:
+    folderpath = r"D:\Workspace\jyyslide-md\test\illustrations_dfs"
+    imgs = get_filenames(folderpath, "jpg") + get_filenames(folderpath, "png")
+    animate_list = list()
+    template = "<section data-auto-animate>{}</section>"
+    for img in imgs:
+        md = "![]({})".format(img)
+        html = md_to_html(md)
+        tmp = template.format(html)
+        animate_list.append(tmp)
 
-    template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
+    return "\n".join(animate_list)
+
+
+def vertical_to_fragment(vertical: str) -> str:
+    fragments = vertical.split(op_index_fragment)
 
     fragment_list = [md_to_html(fragments[0])]
+    template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
+
     for i in range(1, len(fragments)):
         fragment_list.append(template.format(i - 1, md_to_html(fragments[i])))
 
     return "\n".join(fragment_list)
 
 
-def vertical_to_animate(vertical: str, folder_path) -> str:
-    source = "".join(vertical.split("\n[[" + folder_path + "]]\n"))
-    "<section>\n {} \n</section>"
-    pass
-
-
-def process_verticalfragment(vertical: str) -> str:
-    if "\n<!-- -->\n" in vertical:
+def process_vertical(vertical: str) -> str:
+    if op_index_fragment in vertical:
         return vertical_to_fragment(vertical)
     else:
-        t = re.math("\n[[.*]]\n", vertical)
-        if t is None:
-            return md_to_html(vertical)
-        else:
+        if '[[]]' in vertical:
             return vertical_to_animate(vertical)
+        else :
+            return md_to_html(vertical)
+        # if re.match(op_animate_pattern, vertical) is None:
+        #     return md_to_html(vertical)
+        # else:
+        #     return vertical_to_animate(vertical)
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
@@ -52,7 +62,7 @@ def horizontal_to_vertical(horizontal: str) -> str:
     for vertical in verticals:
         if vertical.isspace():
             continue
-        fragmetns = vertical_to_fragment(vertical)
+        fragmetns = process_vertical(vertical)
         html = template.format(fragmetns)
         sections.append(html)
 
@@ -76,10 +86,12 @@ def md_divide_to_horizontal(context: str):
 
 
 def process_html_eles(e):
+    # 给标题添加属性
     for item in e("h1").parent():
         t = pq(item)
         t.wrap("<div style='width:100%'>")
         t.wrap("<div class='center middle'>")
+    # 为各个属性插入tag
     class_data = {
         "ul": " list-disc font-serif",
         "li": " ml-8",
@@ -105,17 +117,19 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
     """
     # 先将整个Mardown切成多个水平幻灯片
     html_first_sections = md_divide_to_horizontal(context)
+    # 插入到一个完整的HTML中
     pre_html = "<html>\n<body>\n{}\n</body>\n</html>".format(html_first_sections)
 
-    # 为填充好内容的html字符串中的各个块插入对应的tag, 并拼接放入模板中
+    # 为处理好的HTML中的各个元素插入对应的tag
     page = pq(pre_html)
     process_html_eles(page)
-
+    # 拼接起来
     items = page("body").children()
-    result = pre_temp.replace("{}", "\n".join([str(pq(e)) for e in items]))
+    temp = "\n".join([str(pq(e)) for e in items])
+    # 放到模板中
+    result = pre_temp.replace("{}", temp)
 
     write(filepath, result)
-    pass
 
 
 def converter(MDfile, title, icon, output_foldpath):
