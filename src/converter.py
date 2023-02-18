@@ -6,77 +6,9 @@ jyy的模板中, class为"slide"的div下,
 每个水平幻灯片下的每个section都是垂直幻灯片 
 """
 import os, shutil, re
-
-import xml.etree.ElementTree as etree
 from pyquery import PyQuery as pq
-import markdown
-from markdown import Extension
-from markdown.blockprocessors import BlockProcessor
-
 from src.settings import *
 from src.lib import *
-
-
-def proce
-
-# div处理
-def add_wrap(e):
-    for item in e("h1").parent():
-        t = pq(item)
-        t.wrap("<div style='width:100%'>")
-        t.wrap("<div class='center middle'>")
-
-
-def add_class(e):
-    class_data = {
-        "ul": " list-disc font-serif",
-        "li": " ml-8",
-        "h2": " text-xl mt-2 pb-2 font-sans",
-        "h1": " text-2xl mt-2 font-sans",
-        "p": " font-serif my-1",
-        "pre": " bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
-    }
-    for k, v in class_data.items():
-        for item in e(k):
-            t = pq(item)
-            t.add_class(v)
-
-
-# markdwon convert html
-def md_to_html(md: str) -> str:
-    # infrastructure
-    class BoxBlockProcessor(BlockProcessor):
-        first = True
-
-        def test(self, parent, block):
-            return self.first
-
-        def run(self, parent, blocks):
-            if self.first:
-                self.first = False
-
-                e = etree.SubElement(parent, "div")
-                # e.set('style', 'display: inline-block; border: 1px solid red;')
-                self.parser.parseBlocks(e, blocks)
-                # remove used blocks
-                for i in range(0, len(blocks)):
-                    blocks.pop(0)
-                return True  # or could have had no return statement
-            return False  # equivalent to our test() routine returning False
-
-    class BoxExtension(Extension):
-        def extendMarkdown(self, md):
-            md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), "box", 175)
-
-    extensions = [
-        BoxExtension(),
-        "meta",
-        "fenced_code",
-        "codehilite",
-        "attr_list",
-        "tables",
-    ]
-    return markdown.markdown(md, extensions=extensions)
 
 
 def vertical_to_fragment(vertical: str) -> str:
@@ -110,14 +42,13 @@ def process_verticalfragment(vertical: str) -> str:
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
-    vertical_sep = "\n----\n"
-    verticals = horizontal.split(vertical_sep)
-
-    template = "\n<section>\n {} </section>"
-    if len(verticals) == 1:
-        template = "{}"
+    verticals = horizontal.split(op_second_section)
 
     sections = list()
+    template = "\n<section>\n {} </section>"
+    if len(verticals) == 1:  # 没有垂直幻灯片
+        template = "{}"
+
     for vertical in verticals:
         if vertical.isspace():
             continue
@@ -129,8 +60,7 @@ def horizontal_to_vertical(horizontal: str) -> str:
 
 
 def md_divide_to_horizontal(context: str):
-    horizontal_sep = "\n---\n"
-    horizontals = context.split(horizontal_sep)
+    horizontals = context.split(op_first_section)
 
     sections = list()
     template = "<section>\n {} \n</section>"
@@ -138,16 +68,35 @@ def md_divide_to_horizontal(context: str):
     for horizontal in horizontals:
         if horizontal.isspace():
             continue
-        second_sections = horizontal_to_vertical(horizontal)
-        html = template.format(second_sections)
+        html_second_sections = horizontal_to_vertical(horizontal)
+        html = template.format(html_second_sections)
         sections.append(html)
 
-    return "<html>\n<body>\n {} \t</body>\n</html>".format("\n".join(sections))
+    return "\n".join(sections)
+
+
+def process_html_eles(e):
+    for item in e("h1").parent():
+        t = pq(item)
+        t.wrap("<div style='width:100%'>")
+        t.wrap("<div class='center middle'>")
+    class_data = {
+        "ul": " list-disc font-serif",
+        "li": " ml-8",
+        "h2": " text-xl mt-2 pb-2 font-sans",
+        "h1": " text-2xl mt-2 font-sans",
+        "p": " font-serif my-1",
+        "pre": " bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
+    }
+    for k, v in class_data.items():
+        for item in e(k):
+            t = pq(item)
+            t.add_class(v)
 
 
 def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
     """
-    将内容是Markdown的字符串转换成HTML, 并连同静态文件保存到对应路径下
+    将内容是Markdown的字符串转换成HTML并保存到对应路径下(静态文件已经在上层函数中处理好)
 
     Args:
         context (str): 内容是Markdown的字符串
@@ -155,14 +104,13 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
         pre_temp (str): 预处理好title和icon的HTML模板
     """
     # 先将整个Mardown切成多个水平幻灯片
-    first_sectons = md_divide_to_horizontal(context)
-    # first_sectons是多个secton块, 也就是多个html代码的列表
+    html_first_sections = md_divide_to_horizontal(context)
+    pre_html = "<html>\n<body>\n{}\n</body>\n</html>".format(html_first_sections)
 
     # 为填充好内容的html字符串中的各个块插入对应的tag, 并拼接放入模板中
-    page = pq(first_sectons)
-    add_wrap(page)
-    add_class(page)
-    
+    page = pq(pre_html)
+    process_html_eles(page)
+
     items = page("body").children()
     result = pre_temp.replace("{}", "\n".join([str(pq(e)) for e in items]))
 

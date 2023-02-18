@@ -3,7 +3,7 @@
 一款通过简单的Mardown方言生成类似[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具。
 
 ## Grammer
-总览效果看见[样例](#Quickstart)
+总览效果见[样例](#Quickstart)
 >互联网有多种构建网页幻灯片的框架，基本都有自己的Markdown方言，不过有一些习惯上的用法可循，jyyslide-md尽可能遵循这种习惯。
 >功能上的设计从幻灯片的应用场景出发，在使用尽可能少的语法情况下提供尽可能足够的功能。
 
@@ -28,10 +28,6 @@
     + 支持数学公式
     + 支持表格（但蒋老师提供的CSS没有对表格的美化，所以建议不使用）
 
----
-
-<!-- + 更多的设计
-  + 动画：以`\n[[folder path [, style]]]\n`的方式，框架会为目录下的所有图片文件制作动画插入到当前位置。 -->
 
 ## Install
 >本项目使用Python3开发，使用第三方库poetry进行库管理，请用户确保本机有**版本**合适的Python并装有poetry，下面提供足够的使用方法，如果像相对系统的学习，可尝试我的[poetry笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)
@@ -47,7 +43,17 @@
 
 + 命令解释：添加flag`--help`查看细节
   ```bash
-  python main.py --help
+  > python main.py --help
+  usage: main.py [-h] [--title TITLE] [--icon ICON] [--folder FOLDER] MDfile
+
+  positional arguments:
+    MDfile           select a Markdown file to convert
+
+  options:
+    -h, --help       show this help message and exit
+    --title TITLE    select a title for your web slide, defult file name
+    --icon ICON      select a image as your web icon, default 'Z', or modify in dist folder
+    --folder FOLDER  select a folder to save dist, default same to md
   ```
 
 ## Quickstart
@@ -59,14 +65,14 @@ python3 -m poetry run python main.py test/slide.md
 
 即可在`test/dist`目录下找到完整网页目录
 
-## 代码解读
+## Develop
 ```
 .
 |----main.py: 项目入口, 主要是命令行配置
 |----src
-      |----settings.py: 配置信息，可查看项目静态资源位置
-      |----lib.py: 辅助性函数
-      ·----converter.py: 项目核心, 用于转换的算法
+      |----settings.py: 配置信息，包括项目静态资源和设置的语法关键字
+      |----lib.py: 包含一些辅助性函数
+      ·----converter.py: 项目核心
 ```
 程序中有大量的注释
 
