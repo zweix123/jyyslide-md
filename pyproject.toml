@@ -13,6 +13,7 @@ markdown = "^3.4.1"
 pyquery = "^2.0.0"
 pygments = "^2.14.0"
 chardet = "^5.1.0"
+argparse = "^1.4.0"
 
 
 [build-system]

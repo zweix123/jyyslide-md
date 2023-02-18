@@ -4,6 +4,15 @@ import chardet
 from src.settings import *
 
 
+def get_filenames(top, suffix):  # 返回top路径下所有后缀名为suffix的文件的文件名列表
+    return [
+        os.path.join(dirpath, filename)
+        for dirpath, dirnames, filenames in os.walk(top)
+        for filename in filenames
+        if str(filename).endswith("." + suffix)
+    ]
+
+
 def get_file_code(file_path):  # 检测文件编码格式, 效率较低
     res = str()
     with open(file_path, "rb") as f:
