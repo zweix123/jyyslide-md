@@ -13,8 +13,11 @@ import markdown
 from markdown import Extension
 from markdown.blockprocessors import BlockProcessor
 
+from src.settings import *
 from src.lib import *
 
+
+def proce
 
 # div处理
 def add_wrap(e):
@@ -159,6 +162,7 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
     page = pq(first_sectons)
     add_wrap(page)
     add_class(page)
+    
     items = page("body").children()
     result = pre_temp.replace("{}", "\n".join([str(pq(e)) for e in items]))
 
@@ -168,14 +172,14 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
 
 def converter(MDfile, title, icon, output_foldpath):
     """
-    转换器, 用于将Markdown文件转换成HTML文件(和其静态文件)
+    转换器, 用于将Markdown文件转换成HTML文件(并生成相关的静态文件)
     Args:
         MDfile (str): 要转换的Markdown文件路径
         title (str): 转换出的HTML网页的title, 默认同文件名
         icon (str): 转换出的HTML网页的icon, 默认zweix的logo
         folder (str): 转换出的一系列文件放在文件夹`dist`中, 该参数指明dist目录保存位置
     """
-    # 下面都是相关量的设置
+    # 相关路径的处理
     filename = os.path.basename(MDfile)
     filepath = os.path.abspath(MDfile)
     filepath_pre = filepath.split(filename)[0]
@@ -184,32 +188,22 @@ def converter(MDfile, title, icon, output_foldpath):
         output_foldpath = os.path.join(filepath_pre, "dist")
     else:
         output_foldpath = os.path.abspath(output_foldpath)
+    output_filepath = os.path.join(output_foldpath, output_filename)
+    if title is None:
+        title = ".".join(filename.split(".")[:-1])
+    if icon is None:
+        icon = os.path.join(static_path, "img", "favicon.png")
 
-    # 将静态文件保存到路径下
+    # 转移静态文件
     if os.path.exists(output_foldpath):
         shutil.rmtree(output_foldpath)
     os.mkdir(output_foldpath)
-    shutil.copytree(
-        os.path.join(os.getcwd(), "src", "static"),
-        os.path.join(output_foldpath, "static"),
-    )
-
-    output_filepath = os.path.join(output_foldpath, output_filename)
-
-    template_html = read(template_from)
-    if title is None:
-        title = ".".join(filename.split(".")[:-1])
-
-    template_html = template_html.replace("{{title}}", title)
-
-    if icon is None:
-        icon = "./src/static/img/favicon.png"
-        # icon = os.path.join(".", "src", "static", "img", "favicon.png")
-    t = os.path.abspath(icon)
+    shutil.copytree(static_path, os.path.join(output_foldpath, "static"))
     shutil.copy(icon, os.path.join(output_foldpath, "static", "img", "favicon.png"))
 
-    template_html = template_html.replace("{{icon}}", icon)
+    # 预处理模板
+    template_html = read(template_from)
+    template_html = template_html.replace("{{title}}", title)
 
     context = read(filepath)
-
     md_to_jyyhtml(context, output_filepath, template_html)
