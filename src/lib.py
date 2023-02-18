@@ -1,8 +1,6 @@
 import os
 import chardet
 
-from src.settings import *
-
 
 def get_filenames(top, suffix):  # 返回top路径下所有后缀名为suffix的文件的文件名列表
     return [
