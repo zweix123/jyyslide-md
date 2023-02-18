@@ -3,6 +3,7 @@
 一款通过简单的Mardown方言生成类似[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具。
 
 ## Grammer
+总览效果看见[样例](#Quickstart)
 >互联网有多种构建网页幻灯片的框架，基本都有自己的Markdown方言，不过有一些习惯上的用法可循，jyyslide-md尽可能遵循这种习惯。
 >功能上的设计从幻灯片的应用场景出发，在使用尽可能少的语法情况下提供尽可能足够的功能。
 
@@ -10,8 +11,7 @@
 + 垂直幻灯片使用`\n----\n`（四个）分割
 + 具有`data-fragment-index`属性的Fragments使用`\n<!-- -->\n`分割
   + 语法对标`reveal-md`同时后续可能开发支持其他属性Fragments
-  + 默认次序从0开始，所以请在最开始的一段的上面同样使用分隔符（不然包括标题在内的其他部分都属于第一段，而次序从0开始，即进入这张幻灯片时什么也没有）  
-    对应着最后一块fragment后面则不需要分隔符（）
+  + 具体分割方式是从分割符到下一个分隔符或者本张幻灯片末尾的位置
   + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
 
 ---
@@ -28,6 +28,11 @@
     + 支持数学公式
     + 支持表格（但蒋老师提供的CSS没有对表格的美化，所以建议不使用）
 
+---
+
+<!-- + 更多的设计
+  + 动画：以`\n[[folder path [, style]]]\n`的方式，框架会为目录下的所有图片文件制作动画插入到当前位置。 -->
+
 ## Install
 >本项目使用Python3开发，使用第三方库poetry进行库管理，请用户确保本机有**版本**合适的Python并装有poetry，下面提供足够的使用方法，如果像相对系统的学习，可尝试我的[poetry笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)
 
@@ -36,7 +41,14 @@
 
 ## Use
 
-`python3 -m poetry run python main.py FILE`，即可按照生成
++ python/poetry的使用，有两种使用方式
+  + 以`python3 -m poetry run python main.py`为前缀使用命令
+  + 进入虚拟环境`python3 -m poetry shell`, 然后通过前缀`python main.py`为前缀使用命令
+
++ 命令解释：添加flag`--help`查看细节
+  ```bash
+  python main.py --help
+  ```
 
 ## Quickstart
 
@@ -45,7 +57,18 @@
 python3 -m poetry run python main.py test/slide.md
 ```
 
-即可在`test/dist`目录下找到完整网页
+即可在`test/dist`目录下找到完整网页目录
+
+## 代码解读
+```
+.
+|----main.py: 项目入口, 主要是命令行配置
+|----src
+      |----settings.py: 配置信息，可查看项目静态资源位置
+      |----lib.py: 辅助性函数
+      ·----converter.py: 项目核心, 用于转换的算法
+```
+程序中有大量的注释
 
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
