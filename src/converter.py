@@ -12,7 +12,7 @@ from src.lib import *
 
 
 def vertical_to_animate(vertical: str) -> str:
-    folderpath = r"D:\Workspace\jyyslide-md\test\illustrations_dfs"
+    folderpath = r"D:\Workspace\jyyslide-md\test\illustrations_queue"
     imgs = get_filenames(folderpath, "jpg") + get_filenames(folderpath, "png")
     animate_list = list()
     template = "<section data-auto-animate>{}</section>"
