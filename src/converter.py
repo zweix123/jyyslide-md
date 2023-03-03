@@ -8,17 +8,19 @@ jyy的模板中, class为"slide"的div下,
 import os, shutil, re
 from pyquery import PyQuery as pq
 from src.settings import *
-from src.lib import *
+from src.util import *
 
 
 def vertical_to_animate(vertical: str) -> str:
     folderpath = r"D:\Workspace\jyyslide-md\test\illustrations_queue"
-    imgs = get_filenames(folderpath, "jpg") + get_filenames(folderpath, "png")
+    imgs = file_util.get_files_under_folder(
+        folderpath, "jpg"
+    ) + file_util.get_files_under_folder(folderpath, "png")
     animate_list = list()
     template = "<section data-auto-animate>{}</section>"
     for img in imgs:
         md = "![]({})".format(img)
-        html = md_to_html(md)
+        html = str_util.md_to_html(md)
         tmp = template.format(html)
         animate_list.append(tmp)
 
@@ -28,11 +30,11 @@ def vertical_to_animate(vertical: str) -> str:
 def vertical_to_fragment(vertical: str) -> str:
     fragments = vertical.split(op_index_fragment)
 
-    fragment_list = [md_to_html(fragments[0])]
+    fragment_list = [str_util.md_to_html(fragments[0])]
     template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
 
     for i in range(1, len(fragments)):
-        fragment_list.append(template.format(i - 1, md_to_html(fragments[i])))
+        fragment_list.append(template.format(i - 1, str_util.md_to_html(fragments[i])))
 
     return "\n".join(fragment_list)
 
@@ -41,10 +43,10 @@ def process_vertical(vertical: str) -> str:
     if op_index_fragment in vertical:
         return vertical_to_fragment(vertical)
     else:
-        if '[[]]' in vertical:
+        if "[[]]" in vertical:
             return vertical_to_animate(vertical)
-        else :
-            return md_to_html(vertical)
+        else:
+            return str_util.md_to_html(vertical)
         # if re.match(op_animate_pattern, vertical) is None:
         #     return md_to_html(vertical)
         # else:
@@ -129,33 +131,18 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
     # 放到模板中
     result = pre_temp.replace("{}", temp)
 
-    write(filepath, result)
+    file_util.write(filepath, result)
 
 
-def converter(MDfile, title, icon, output_foldpath):
-    """
-    转换器, 用于将Markdown文件转换成HTML文件(并生成相关的静态文件)
-    Args:
-        MDfile (str): 要转换的Markdown文件路径
-        title (str): 转换出的HTML网页的title, 默认同文件名
-        icon (str): 转换出的HTML网页的icon, 默认zweix的logo
-        folder (str): 转换出的一系列文件放在文件夹`dist`中, 该参数指明dist目录保存位置
-    """
-    # 相关路径的处理
-    filename = os.path.basename(MDfile)
-    filepath = os.path.abspath(MDfile)
+def converter(filepath):
+    filename = os.path.basename(filepath)
+    filepath = os.path.abspath(filepath)
     filepath_pre = filepath.split(filename)[0]
     output_filename = "index.html"  # 习惯
-    if output_foldpath is None:
-        output_foldpath = os.path.join(filepath_pre, "dist")
-    else:
-        output_foldpath = os.path.abspath(output_foldpath)
+    output_foldpath = os.path.join(filepath_pre, "dist")
     output_filepath = os.path.join(output_foldpath, output_filename)
-    if title is None:
-        title = ".".join(filename.split(".")[:-1])
-    if icon is None:
-        icon = os.path.join(static_path, "img", "favicon.png")
-
+    icon = os.path.join(static_path, "img", "favicon.png")
+    title = "slide"
     # 转移静态文件
     if os.path.exists(output_foldpath):
         shutil.rmtree(output_foldpath)
@@ -164,8 +151,8 @@ def converter(MDfile, title, icon, output_foldpath):
     shutil.copy(icon, os.path.join(output_foldpath, "static", "img", "favicon.png"))
 
     # 预处理模板
-    template_html = read(template_from)
+    template_html = file_util.read(template_from)
     template_html = template_html.replace("{{title}}", title)
 
-    context = read(filepath)
+    context = file_util.read(filepath)
     md_to_jyyhtml(context, output_filepath, template_html)

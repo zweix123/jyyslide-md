@@ -1,0 +1,24 @@
+<div class="py-16">
+    <p class=" font-serif my-1">
+        <a href="{{ author.url }}" class=" text-amber-900">
+            {{ author }}
+        </a>
+    </p>
+</div>
+<div class="row">
+
+    {% for department im departments %}
+    <p class=" font-serif my-1"></p>
+    <div class="author-affiliation">
+        <a href="{{ departmetn.url }}" class=" text-amber-900">
+            <p class=" font-serif my-1">
+                {{ departmetn.name }}
+            </p>
+            <img class="inline-img h-24" src="{{ departmetn.img_url }}" style="display: inline-block;">
+        </a>
+    </div>
+    {% endfor %}
+
+    
+    
+</div>
