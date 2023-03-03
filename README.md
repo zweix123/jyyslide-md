@@ -2,6 +2,10 @@
 
 一款通过简单的Mardown方言生成类似[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具。
 
+  
+[Grammer](#grammer) | [Install](#install) | [Use](#use) | [Quickstart](#quickstart) | [Acknowledgement](#acknowledgement)
+
+
 ## Grammer
 总览效果见[样例](#Quickstart)
 >互联网有多种构建网页幻灯片的框架，基本都有自己的Markdown方言，不过有一些习惯上的用法可循，jyyslide-md尽可能遵循这种习惯。
@@ -13,7 +17,7 @@
   + 语法对标`reveal-md`同时后续可能开发支持其他属性Fragments
   + 具体分割方式是从分割符到下一个分隔符或者本张幻灯片末尾的位置
   + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
-<!-- + 渐变动画使用`\n<--[.?]-->\n`作为标记 -->
+<!-- + 渐变动画使用`\n<--[.?]\n`作为标记 -->
   <!-- >上面的fragment是依次出现，之前的不会消失，如果我们想一个个交替出现形成动画呢？ -->
   <!-- + 具体格式：`folderpath, "style"` -->
   <!-- + 限制：只支持图片且这样的tag只能放在一张幻灯片的末尾且和fragment冲突 -->
@@ -56,17 +60,6 @@ python3 -m poetry run python main.py test/slide.md
 ```
 
 即可在`test/dist`目录下找到完整网页目录
-
-## Develop
-```
-.
-|----main.py: 项目入口, 主要是命令行配置
-|----src
-      |----settings.py: 配置信息，包括项目静态资源和设置的语法关键字
-      |----lib.py: 包含一些辅助性函数
-      ·----converter.py: 项目核心
-```
-程序中有大量的注释
 
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)

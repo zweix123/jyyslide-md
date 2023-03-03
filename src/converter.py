@@ -20,7 +20,7 @@ def vertical_to_animate(vertical: str) -> str:
     template = "<section data-auto-animate>{}</section>"
     for img in imgs:
         md = "![]({})".format(img)
-        html = str_util.md_to_html(md)
+        html = md_util.md_to_html(md)
         tmp = template.format(html)
         animate_list.append(tmp)
 
@@ -30,11 +30,11 @@ def vertical_to_animate(vertical: str) -> str:
 def vertical_to_fragment(vertical: str) -> str:
     fragments = vertical.split(op_index_fragment)
 
-    fragment_list = [str_util.md_to_html(fragments[0])]
+    fragment_list = [md_util.md_to_html(fragments[0])]
     template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
 
     for i in range(1, len(fragments)):
-        fragment_list.append(template.format(i - 1, str_util.md_to_html(fragments[i])))
+        fragment_list.append(template.format(i - 1, md_util.md_to_html(fragments[i])))
 
     return "\n".join(fragment_list)
 
@@ -46,7 +46,7 @@ def process_vertical(vertical: str) -> str:
         if "[[]]" in vertical:
             return vertical_to_animate(vertical)
         else:
-            return str_util.md_to_html(vertical)
+            return md_util.md_to_html(vertical)
         # if re.match(op_animate_pattern, vertical) is None:
         #     return md_to_html(vertical)
         # else:
@@ -137,22 +137,23 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
 def converter(filepath):
     filename = os.path.basename(filepath)
     filepath = os.path.abspath(filepath)
-    filepath_pre = filepath.split(filename)[0]
     output_filename = "index.html"  # 习惯
-    output_foldpath = os.path.join(filepath_pre, "dist")
+    output_foldpath = os.path.join(filepath.split(filename)[0], "dist")
     output_filepath = os.path.join(output_foldpath, output_filename)
-    icon = os.path.join(static_path, "img", "favicon.png")
-    title = "slide"
+
     # 转移静态文件
     if os.path.exists(output_foldpath):
         shutil.rmtree(output_foldpath)
     os.mkdir(output_foldpath)
     shutil.copytree(static_path, os.path.join(output_foldpath, "static"))
-    shutil.copy(icon, os.path.join(output_foldpath, "static", "img", "favicon.png"))
 
     # 预处理模板
     template_html = file_util.read(template_from)
-    template_html = template_html.replace("{{title}}", title)
+    title = "".join(filename.split(".")[-1])
+    template_html = template_html.replace("{{ title }}", title)
 
     context = file_util.read(filepath)
+    context = md_util.move_image(
+        context, filepath, os.path.join(output_foldpath, "static", "img")
+    )
     md_to_jyyhtml(context, output_filepath, template_html)

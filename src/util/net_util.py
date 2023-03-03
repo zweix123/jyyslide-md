@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 from tqdm.asyncio import tqdm
-
+import requests
 
 class UrlChecker:
     def __init__(self, urls, refs) -> None:
@@ -40,3 +40,8 @@ class UrlChecker:
                     tasks.append(task)
                 for coroutine in asyncio.as_completed(tasks):
                     await coroutine
+
+def down(url, target_file_path):
+    t = requests.get(url)
+    with open(target_file_path, "wb") as f:
+        f.write(t.content)
