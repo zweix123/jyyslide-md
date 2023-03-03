@@ -7,6 +7,7 @@ jyy的模板中, class为"slide"的div下,
 """
 import os, shutil, re, json
 from pyquery import PyQuery as pq
+from jinja2 import Template
 from src.settings import *
 from src.util import *
 
@@ -53,6 +54,10 @@ def process_vertical(vertical: str) -> str:
         #     return vertical_to_animate(vertical)
 
 
+first = True
+auther = str()
+
+
 def horizontal_to_vertical(horizontal: str) -> str:
     verticals = horizontal.split(op_second_section)
 
@@ -66,6 +71,11 @@ def horizontal_to_vertical(horizontal: str) -> str:
             continue
         fragmetns = process_vertical(vertical)
         html = template.format(fragmetns)
+        global first
+        if first:
+            html += auther
+            first = False
+
         sections.append(html)
 
     return "\n".join(sections)
@@ -81,6 +91,7 @@ def md_divide_to_horizontal(context: str):
         if horizontal.isspace():
             continue
         html_second_sections = horizontal_to_vertical(horizontal)
+
         html = template.format(html_second_sections)
         sections.append(html)
 
@@ -139,9 +150,7 @@ def front_matter(content):
     if match is None:
         return
 
-    parts = re.split(
-        op_front_matter, content, maxsplit=1, flags=re.MULTILINE
-    )
+    parts = re.split(op_front_matter, content, maxsplit=1, flags=re.MULTILINE)
     head = parts[0].strip()
     content = parts[1].strip()
 
@@ -163,7 +172,7 @@ def converter(filepath):
 
     # 预处理模板
     template_html = file_util.read(template_from)
-    title = "".join(filename.split(".")[-1])
+    title = "".join(filename.split(".")[:-1])
     template_html = template_html.replace("{{ title }}", title)
 
     context = file_util.read(filepath)
@@ -171,5 +180,14 @@ def converter(filepath):
         context, filepath, os.path.join(output_foldpath, "static", "img")
     )
     data, context = front_matter(context)
-    
+    # print(json.dumps(data["author"], sort_keys=True, indent=4, separators=(',', ':')))
+    # print(json.dumps(data["departments"], sort_keys=True, indent=4, separators=(',', ':')))
+    auther_template = Template(file_util.read(authortemp_from))
+    auther_template = auther_template.render(
+        author=data["author"], departments=data["departments"]
+    )
+
+    global auther
+    auther = auther_template
+
     md_to_jyyhtml(context, output_filepath, template_html)
