@@ -13,10 +13,10 @@
   + 语法对标`reveal-md`同时后续可能开发支持其他属性Fragments
   + 具体分割方式是从分割符到下一个分隔符或者本张幻灯片末尾的位置
   + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
-+ 渐变动画使用`\n<--[.?]-->\n`作为标记
-  >上面的fragment是依次出现，之前的不会消失，如果我们想一个个交替出现形成动画呢？
-  + 具体格式：`folderpath, "style"`
-  + 限制：只支持图片且这样的tag只能放在一张幻灯片的末尾且和fragment冲突
+<!-- + 渐变动画使用`\n<--[.?]-->\n`作为标记 -->
+  <!-- >上面的fragment是依次出现，之前的不会消失，如果我们想一个个交替出现形成动画呢？ -->
+  <!-- + 具体格式：`folderpath, "style"` -->
+  <!-- + 限制：只支持图片且这样的tag只能放在一张幻灯片的末尾且和fragment冲突 -->
 
 ---
 
@@ -46,19 +46,7 @@
   + 进入虚拟环境`python3 -m poetry shell`, 然后通过前缀`python main.py`为前缀使用命令
 
 + 命令解释：添加flag`--help`查看细节
-  ```bash
-  > python main.py --help
-  usage: main.py [-h] [--title TITLE] [--icon ICON] [--folder FOLDER] MDfile
 
-  positional arguments:
-    MDfile           select a Markdown file to convert
-
-  options:
-    -h, --help       show this help message and exit
-    --title TITLE    select a title for your web slide, defult file name
-    --icon ICON      select a image as your web icon, default 'Z', or modify in dist folder
-    --folder FOLDER  select a folder to save dist, default same to md
-  ```
 
 ## Quickstart
 
