@@ -5,7 +5,7 @@ jyy的模板中, class为"slide"的div下,
 每个section都是一个水平幻灯片
 每个水平幻灯片下的每个section都是垂直幻灯片 
 """
-import os, shutil, re
+import os, shutil, re, json
 from pyquery import PyQuery as pq
 from src.settings import *
 from src.util import *
@@ -134,6 +134,20 @@ def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
     file_util.write(filepath, result)
 
 
+def front_matter(content):
+    match = re.search(op_front_matter, content, flags=re.MULTILINE)
+    if match is None:
+        return
+
+    parts = re.split(
+        op_front_matter, content, maxsplit=1, flags=re.MULTILINE
+    )
+    head = parts[0].strip()
+    content = parts[1].strip()
+
+    return json.loads(head), content
+
+
 def converter(filepath):
     filename = os.path.basename(filepath)
     filepath = os.path.abspath(filepath)
@@ -156,4 +170,6 @@ def converter(filepath):
     context = md_util.move_image(
         context, filepath, os.path.join(output_foldpath, "static", "img")
     )
+    data, context = front_matter(context)
+    
     md_to_jyyhtml(context, output_filepath, template_html)
