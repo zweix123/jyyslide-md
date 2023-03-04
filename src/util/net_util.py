@@ -1,22 +1,20 @@
 import asyncio
 import aiohttp
 from tqdm.asyncio import tqdm
-import requests
+
 
 class UrlChecker:
-    def __init__(self, urls, refs) -> None:
+    def __init__(self, urls: list[str], refs: list[str]) -> None:
         self.urls = urls
         self.refs = refs
         self.invalid_indexs = list()
-        pass
 
-    def __call__(self):
+    def __call__(self) -> list[(str, str)]:
         asyncio.run(self.check_urls())
         return zip(
             [self.urls[i] for i in self.invalid_indexs],
             [self.refs[i] for i in self.invalid_indexs],
         )
-        pass
 
     async def check_url(self, index, session, pbar):
         try:
@@ -41,7 +39,11 @@ class UrlChecker:
                 for coroutine in asyncio.as_completed(tasks):
                     await coroutine
 
-def down(url, target_file_path):
-    t = requests.get(url)
-    with open(target_file_path, "wb") as f:
-        f.write(t.content)
+
+import requests
+
+
+def down_image(img_url, save_file_path):
+    resp = requests.get(img_url)
+    with open(save_file_path, "wb") as f:
+        f.write(resp.content)

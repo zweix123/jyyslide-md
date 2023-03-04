@@ -7,21 +7,22 @@
         {
             "name": "南京大学",
             "url": "https://www.nju.edu.cn/main.htm",
-            "img_url": "./static/img/nju-logo.jpg"
+            "img_url": "./img/nju-logo.jpg"
         },
         {
             "name": "计算机科学与技术系",
             "url": "https://cs.nju.edu.cn/main.htm",
-            "img_url": "./static/img/nju-logo.jpg"
+            "img_url": "./img/njucs-logo.jpg"
         },
         {
             "name": "计算机软件研究所",
             "url": "https://www.nju.edu.cn/main.htm",
-            "img_url": "./static/img/nju-logo.jpg"
+            "img_url": "./img/ics-logo.png"
         }
     ]
 }
-++++++++
++++++
+
 
 
 # 操作系统概述

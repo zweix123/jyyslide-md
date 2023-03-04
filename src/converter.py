@@ -1,38 +1,17 @@
-# 自下向上看
-"""
-算法比较简单
-jyy的模板中, class为"slide"的div下, 
-每个section都是一个水平幻灯片
-每个水平幻灯片下的每个section都是垂直幻灯片 
-"""
-import os, shutil, re, json
+import os, re, json, shutil
+
 from pyquery import PyQuery as pq
 from jinja2 import Template
-from src.settings import *
+
+from . import settings as st
 from src.util import *
 
 
-def vertical_to_animate(vertical: str) -> str:
-    folderpath = r"D:\Workspace\jyyslide-md\test\illustrations_queue"
-    imgs = file_util.get_files_under_folder(
-        folderpath, "jpg"
-    ) + file_util.get_files_under_folder(folderpath, "png")
-    animate_list = list()
-    template = "<section data-auto-animate>{}</section>"
-    for img in imgs:
-        md = "![]({})".format(img)
-        html = md_util.md_to_html(md)
-        tmp = template.format(html)
-        animate_list.append(tmp)
-
-    return "\n".join(animate_list)
-
-
 def vertical_to_fragment(vertical: str) -> str:
-    fragments = vertical.split(op_index_fragment)
+    fragments = vertical.split(st.op_index_fragment)
 
     fragment_list = [md_util.md_to_html(fragments[0])]
-    template = "<div class='fragment' data-fragment-index='{}'> {} </div>"
+    template = "<div class='fragment' data-fragment-index='{}'>{}</div>"
 
     for i in range(1, len(fragments)):
         fragment_list.append(template.format(i - 1, md_util.md_to_html(fragments[i])))
@@ -41,51 +20,37 @@ def vertical_to_fragment(vertical: str) -> str:
 
 
 def process_vertical(vertical: str) -> str:
-    if op_index_fragment in vertical:
-        return vertical_to_fragment(vertical)
+    unit = str()
+    if st.op_index_fragment in vertical:
+        unit = vertical_to_fragment(vertical)
     else:
-        if "[[]]" in vertical:
-            return vertical_to_animate(vertical)
-        else:
-            return md_util.md_to_html(vertical)
-        # if re.match(op_animate_pattern, vertical) is None:
-        #     return md_to_html(vertical)
-        # else:
-        #     return vertical_to_animate(vertical)
-
-
-first = True
-auther = str()
+        unit = md_util.md_to_html(vertical)
+    unit += st.author_template
+    st.author_template = ""
+    return unit
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
-    verticals = horizontal.split(op_second_section)
+    verticals = horizontal.split(st.op_second_section)
 
     sections = list()
-    template = "\n<section>\n {} </section>"
-    if len(verticals) == 1:  # 没有垂直幻灯片
-        template = "{}"
+    template = "<section>{}</section>"
 
     for vertical in verticals:
         if vertical.isspace():
             continue
         fragmetns = process_vertical(vertical)
         html = template.format(fragmetns)
-        global first
-        if first:
-            html += auther
-            first = False
-
         sections.append(html)
 
     return "\n".join(sections)
 
 
-def md_divide_to_horizontal(context: str):
-    horizontals = context.split(op_first_section)
+def md_divide_to_horizontal(content: str):
+    horizontals = content.split(st.op_first_section)
 
     sections = list()
-    template = "<section>\n {} \n</section>"
+    template = "<section>{}</section>"
 
     for horizontal in horizontals:
         if horizontal.isspace():
@@ -98,13 +63,12 @@ def md_divide_to_horizontal(context: str):
     return "\n".join(sections)
 
 
-def process_html_eles(e):
-    # 给标题添加属性
+def process_html_elements(e):
     for item in e("h1").parent():
         t = pq(item)
         t.wrap("<div style='width:100%'>")
         t.wrap("<div class='center middle'>")
-    # 为各个属性插入tag
+
     class_data = {
         "ul": " list-disc font-serif",
         "li": " ml-8",
@@ -119,75 +83,71 @@ def process_html_eles(e):
             t.add_class(v)
 
 
-def md_to_jyyhtml(context: str, filepath: str, pre_temp: str):
-    """
-    将内容是Markdown的字符串转换成HTML并保存到对应路径下(静态文件已经在上层函数中处理好)
+def get_body(content):
+    html_first_sections = md_divide_to_horizontal(content)
+    pre_html = "<html><body>{}</body></html>".format(html_first_sections)
 
-    Args:
-        context (str): 内容是Markdown的字符串
-        filepath (str): 保存生成的一系列文件的路径
-        pre_temp (str): 预处理好title和icon的HTML模板
-    """
-    # 先将整个Mardown切成多个水平幻灯片
-    html_first_sections = md_divide_to_horizontal(context)
-    # 插入到一个完整的HTML中
-    pre_html = "<html>\n<body>\n{}\n</body>\n</html>".format(html_first_sections)
-
-    # 为处理好的HTML中的各个元素插入对应的tag
     page = pq(pre_html)
-    process_html_eles(page)
-    # 拼接起来
+    process_html_elements(page)
+
     items = page("body").children()
-    temp = "\n".join([str(pq(e)) for e in items])
-    # 放到模板中
-    result = pre_temp.replace("{}", temp)
-
-    file_util.write(filepath, result)
+    return "\n".join([str(pq(e)) for e in items])
 
 
-def front_matter(content):
-    match = re.search(op_front_matter, content, flags=re.MULTILINE)
-    if match is None:
+def process_image_link():
+    def func(link):
+        return os.path.join(
+            st.images_foldpath,
+            file_util.get_image_to_target(link, st.filepath, st.images_foldpath),
+        )
+
+    st.content = md_util.process_images(st.content, func)
+
+
+def process_front_matter():
+    if st.op_front_matter not in st.content:
         return
 
-    parts = re.split(op_front_matter, content, maxsplit=1, flags=re.MULTILINE)
-    head = parts[0].strip()
-    content = parts[1].strip()
+    parts = st.content.split(st.op_front_matter)
 
-    return json.loads(head), content
+    front_matter = parts[0]
+    st.content = "".join(parts[1:])
 
+    data = json.loads(front_matter)
 
-def converter(filepath):
-    filename = os.path.basename(filepath)
-    filepath = os.path.abspath(filepath)
-    output_filename = "index.html"  # 习惯
-    output_foldpath = os.path.join(filepath.split(filename)[0], "dist")
-    output_filepath = os.path.join(output_foldpath, output_filename)
+    for department in data["departments"]:
+        department["img_url"] = os.path.join(
+            st.images_foldpath,
+            file_util.get_image_to_target(
+                department["img_url"], st.filepath, st.images_foldpath
+            ),
+        )
 
-    # 转移静态文件
-    if os.path.exists(output_foldpath):
-        shutil.rmtree(output_foldpath)
-    os.mkdir(output_foldpath)
-    shutil.copytree(static_path, os.path.join(output_foldpath, "static"))
-
-    # 预处理模板
-    template_html = file_util.read(template_from)
-    title = "".join(filename.split(".")[:-1])
-    template_html = template_html.replace("{{ title }}", title)
-
-    context = file_util.read(filepath)
-    context = md_util.move_image(
-        context, filepath, os.path.join(output_foldpath, "static", "img")
-    )
-    data, context = front_matter(context)
-    # print(json.dumps(data["author"], sort_keys=True, indent=4, separators=(',', ':')))
-    # print(json.dumps(data["departments"], sort_keys=True, indent=4, separators=(',', ':')))
-    auther_template = Template(file_util.read(authortemp_from))
-    auther_template = auther_template.render(
+    st.author_template = st.author_template.render(
         author=data["author"], departments=data["departments"]
     )
 
-    global auther
-    auther = auther_template
 
-    md_to_jyyhtml(context, output_filepath, template_html)
+def process_static():
+    if os.path.exists(st.output_foldpath) is True:
+        shutil.rmtree(st.output_foldpath)
+    os.mkdir(st.output_foldpath)
+    shutil.copytree(st.static_path, st.static_foldpath)
+
+
+def converter(MDfilepath):
+    st.Init(MDfilepath)
+    process_static()
+
+    st.template = Template(file_util.read(st.template_from))
+    st.author_template = Template(file_util.read(st.authortemp_from))
+
+    st.content = file_util.read(st.filepath)
+    process_front_matter()  # 解析markdown中的front_matter and render author_template(will change content)
+    process_image_link()  # 处理Markdown文本中的图片链接, 将它们get到静态文件, 同时修改content
+
+    st.title = "".join(st.filename.split(".")[:-1])
+    st.body = get_body(st.content)
+
+    st.template = st.template.render(title=st.title, body=st.body)
+    file_util.write(st.output_filepath, st.template)
