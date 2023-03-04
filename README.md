@@ -1,10 +1,9 @@
 # jyyslide-md
-
 一款通过简单的Mardown方言生成类似[南大蒋炎岩老师的幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的工具。
-
   
 [Grammer](#grammer) | [Install](#install) | [Use](#use) | [Quickstart](#quickstart) | [Acknowledgement](#acknowledgement)
 
+>对于市面上类似项目的对比分析见我的[笔记](https://github.com/zweix123/CS-notes/blob/master/Missing-Semester/slide.md)
 
 ## Grammer
 总览效果见[样例](#Quickstart)
