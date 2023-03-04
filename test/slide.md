@@ -5,7 +5,7 @@
     },
     "departments": [
         {
-            "name": "南京大学",
+            "name": "  南京大学  ",
             "url": "https://www.nju.edu.cn/main.htm",
             "img_url": "./img/nju-logo.jpg"
         },

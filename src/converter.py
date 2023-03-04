@@ -27,7 +27,7 @@ def process_vertical(vertical: str) -> str:
         unit = md_util.md_to_html(vertical)
     unit += st.author_template
     st.author_template = ""
-    return unit
+    return "<div>" + unit + "</div>"
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
@@ -97,7 +97,10 @@ def get_body(content):
 def process_image_link():
     def func(link):
         return os.path.join(
-            st.images_foldpath,
+            # st.images_foldpath,
+            ".",
+            "static",
+            "images",
             file_util.get_image_to_target(link, st.filepath, st.images_foldpath),
         )
 
@@ -117,11 +120,15 @@ def process_front_matter():
 
     for department in data["departments"]:
         department["img_url"] = os.path.join(
-            st.images_foldpath,
+            # st.images_foldpath,
+            ".",
+            "static",
+            "images",
             file_util.get_image_to_target(
                 department["img_url"], st.filepath, st.images_foldpath
             ),
         )
+        department["name"] = department["name"].replace(" ", "&#12288;")
 
     st.author_template = st.author_template.render(
         author=data["author"], departments=data["departments"]
@@ -150,4 +157,5 @@ def converter(MDfilepath):
     st.body = get_body(st.content)
 
     st.template = st.template.render(title=st.title, body=st.body)
+
     file_util.write(st.output_filepath, st.template)
