@@ -18,12 +18,11 @@ def process_images(content, func):
             mid = tar[tar.index("(") + 1 : -1]
             suf = tar[-1]
         else:
-            pre = tar[: tar.index('"') + 1]
-            tmp = tar[tar.index('"') + 1 :]
-            mid = tmp[: tmp.index('"')]
-            suf = tmp[tmp.index('"') :]
-
+            mid = re.search(r'src="([^"]*)"', tar).group(1)
+            pre, suf = tar.split(mid)
+        
         link = mid
+        # 黑盒魔法结束
         return pre + func(link) + suf
 
     patten = r"!\[.*?\]\((.*?)\)|<img.*?src=[\'\"](.*?)[\'\"].*?>"
