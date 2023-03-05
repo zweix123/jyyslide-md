@@ -11,7 +11,6 @@ op_animate_section = "\n++++\n"
 op_index_fragment = "\n--\n"
 op_front_matter = "\n+++++\n"
 
-
 # 文件信息
 filename = str()
 filepath = str()

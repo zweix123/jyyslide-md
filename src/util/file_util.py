@@ -17,6 +17,8 @@ def get_file_code(filepath: str) -> str:
     res = str()
     with open(filepath, "rb") as f:
         res = chardet.detect(f.read())["encoding"]
+    if res is None:
+        raise Exception("无法解码文件编码格式")
     return res
 
 
@@ -59,8 +61,8 @@ def get_image_to_target(link: str, from_filepath: str, target_foldpath: str) -> 
         net_util.down_image(link, os.path.join(target_foldpath, name))
     else:
         if os.path.exists(link) is False:
-            print("该路径不存在: ", link)
-            return name
+            print("The path is not exists: ", link)
+            return "", True
         shutil.copyfile(link, os.path.join(target_foldpath, name))
 
-    return name
+    return name, False

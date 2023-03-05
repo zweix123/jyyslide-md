@@ -130,12 +130,15 @@ def get_body(content):
 
 def process_image_link():
     def func(link):
-        return os.path.join(
-            ".",
-            "static",
-            st.images_foldname,
-            file_util.get_image_to_target(link, st.filepath, st.images_foldpath),
+        new_name, err = file_util.get_image_to_target(
+            link, st.filepath, st.images_foldpath
         )
+
+        return (
+            os.path.join(".", "static", st.images_foldname, new_name)
+            if err is False
+            else ""
+        ), err
 
     st.content = md_util.process_images(st.content, func)
 
@@ -153,14 +156,13 @@ def process_front_matter():
     data = json.loads(front_matter)
 
     for department in data["departments"]:
-        department["img_url"] = os.path.join(
-            ".",
-            "static",
-            st.images_foldname,
-            file_util.get_image_to_target(
-                department["img_url"], st.filepath, st.images_foldpath
-            ),
+        new_name, err = file_util.get_image_to_target(
+            department["img_url"], st.filepath, st.images_foldpath
         )
+        if err is False:
+            department["img_url"] = os.path.join(
+                ".", "static", st.images_foldname, new_name
+            )
         department["name"] = department["name"].replace(" ", "&#12288;")
 
     st.author_template = st.author_template.render(

@@ -6,7 +6,7 @@ def process_images(content, func):
 
     Args:
         content (_type_): Markdown类型字符串
-        func (_type_): 处理图片链接的函数, 该函数接受图片链接, 返回一个有关图片链接的新串
+        func (_type_): 处理图片链接的函数, 该函数接受图片链接字符串, 返回一个(有关图片链接的新串, 是否有错误)的元组
     """
 
     def modify(match):
@@ -23,7 +23,8 @@ def process_images(content, func):
 
         link = mid
         # 黑盒魔法结束
-        return pre + func(link) + suf
+        new_name, err = func(link)
+        return pre + (new_name if err is False else link) + suf
 
     patten = r"!\[.*?\]\((.*?)\)|<img.*?src=[\'\"](.*?)[\'\"].*?>"
     return re.sub(patten, modify, content)
@@ -60,9 +61,9 @@ def md_to_html(md: str) -> str:
         "meta",
         "fenced_code",
         "codehilite",
-        # "extra",
+        "extra",
         "attr_list",
         "tables",
-        # "toc",
+        "toc",
     ]
     return markdown(md, extensions=extensions)
