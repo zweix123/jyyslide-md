@@ -17,8 +17,8 @@ def get_file_code(filepath: str) -> str:
     res = str()
     with open(filepath, "rb") as f:
         res = chardet.detect(f.read())["encoding"]
-    if res is None:
-        raise Exception("无法解码文件编码格式")
+    # if res is None:
+    #     raise Exception("无法解码文件编码格式")
     return res
 
 
