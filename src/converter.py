@@ -7,6 +7,40 @@ from . import settings as st
 from src.util import *
 
 
+def process_html_elements(before_html):
+    temp_html = "<html><body>{}</body></html>".format(before_html)
+    page = pq(temp_html)
+    e = page
+    for item in e("h1"):
+        t = pq(item)
+        t.wrap("<div style='width:100%'>")
+        t.wrap("<div class='center middle'>")
+
+    class_data = {
+        "ul": "list-disc font-serif",
+        "li": "ml-8",
+        "h2": "text-xl mt-2 pb-2 font-sans",
+        "h1": "text-2xl mt-2 font-sans",
+        "p": "font-serif my-1",
+        "pre": "bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
+        "img": "center",  # 本项目图片默认居中，如果您不想居中, 可以注释本行
+    }
+    for k, v in class_data.items():
+        for item in e(k):
+            t = pq(item)
+            t.add_class(v)
+    page = e
+    items = page("body").children()
+    return "".join([str(pq(e)) for e in items])
+
+
+def process_terminal(semi_html):
+    semi_html = process_html_elements(semi_html)
+    semi_html += st.author_template
+    st.author_template = ""
+    return semi_html
+
+
 def vertical_to_fragment(vertical: str) -> str:
     fragments = vertical.split(st.op_index_fragment)
 
@@ -50,16 +84,22 @@ def horizontal_to_vertical(horizontal: str) -> str:
                     continue
                 sections.append(
                     template_animate.format(
-                        vertical_to_animate(vertical_divided_by_animate)
+                        process_terminal(
+                            vertical_to_animate(vertical_divided_by_animate)
+                        )
                     )
                 )
         elif st.op_index_fragment in vertical_divided_by_second:
             sections.append(
-                template_second.format(vertical_to_fragment(vertical_divided_by_second))
+                template_second.format(
+                    process_terminal(vertical_to_fragment(vertical_divided_by_second))
+                )
             )
         else:
             sections.append(
-                template_second.format(md_util.md_to_html(vertical_divided_by_second))
+                template_second.format(
+                    process_terminal(md_util.md_to_html(vertical_divided_by_second))
+                )
             )
 
     return "".join(sections)
@@ -82,37 +122,9 @@ def md_divide_to_horizontal(content: str):
     return "".join(sections)
 
 
-def process_html_elements(e):
-    for item in e("h1"):
-        t = pq(item)
-        t.wrap("<div style='width:100%'>")
-        t.wrap("<div class='center middle'>")
-
-    class_data = {
-        "ul": "list-disc font-serif",
-        "li": "ml-8",
-        "h2": "text-xl mt-2 pb-2 font-sans",
-        "h1": "text-2xl mt-2 font-sans",
-        "p": "font-serif my-1",
-        "pre": "bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
-        "img": "center",  # 本项目图片默认居中，如果您不想居中, 可以注释本行
-    }
-    for k, v in class_data.items():
-        for item in e(k):
-            t = pq(item)
-            t.add_class(v)
-
-
 def get_body(content):
     html_first_sections = md_divide_to_horizontal(content)
-    pre_html = "<html><body>{}</body></html>".format(html_first_sections)
-
-    # 处理tag
-    page = pq(pre_html)
-    process_html_elements(page)
-
-    items = page("body").children()
-    return "".join([str(pq(e)) for e in items])
+    return html_first_sections
 
 
 def process_image_link():

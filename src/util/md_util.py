@@ -20,7 +20,7 @@ def process_images(content, func):
         else:
             mid = re.search(r'src="([^"]*)"', tar).group(1)
             pre, suf = tar.split(mid)
-        
+
         link = mid
         # 黑盒魔法结束
         return pre + func(link) + suf
