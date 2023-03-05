@@ -255,7 +255,7 @@ int main() {
 }
 ```
 
-在Reveal.js和基于它的reveal-md中，有代码特定行高亮，目前本项目还不支持。
+>Reveal-md和Slidev支持的代码特定行高亮暂时不支持
 
 ----
 
