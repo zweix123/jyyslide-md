@@ -20,7 +20,7 @@ output_filename = "index.html"
 output_foldpath = str()
 output_filepath = str()
 static_foldpath = str()
-images_foldname = "img"  # 如果要修改还要修炼static下的img文件名
+images_foldname = "img"  # 如果要修改还要修炼static下的img文件名，template中icon的文件路径
 images_foldpath = str()
 
 content = str()  # MD内容
