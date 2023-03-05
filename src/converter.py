@@ -8,42 +8,65 @@ from src.util import *
 
 
 def vertical_to_fragment(vertical: str) -> str:
+    # vertical = vertical.strip()
+    print(vertical)
+    # vertical = st.op_index_fragment + vertical
     fragments = vertical.split(st.op_index_fragment)
-
+    print(fragments)
     fragment_list = [md_util.md_to_html(fragments[0])]
     template = "<div class='fragment' data-fragment-index='{}'>{}</div>"
+    
+    
 
     for i in range(1, len(fragments)):
-        fragment_list.append(template.format(i - 1, md_util.md_to_html(fragments[i])))
+        # print(fragments[i])
+        # print("======")
+        fragment_list.append(template.format(i, md_util.md_to_html(fragments[i])))
 
-    return "\n".join(fragment_list)
+    return "".join(fragment_list)
 
 
-def process_vertical(vertical: str) -> str:
-    unit = str()
-    if st.op_index_fragment in vertical:
-        unit = vertical_to_fragment(vertical)
-    else:
-        unit = md_util.md_to_html(vertical)
-    unit += st.author_template
-    st.author_template = ""
-    return "<div>" + unit + "</div>"
+def vertical_to_animate(vertical: str) -> str:
+    animates = vertical.split(st.op_animate_section)
+    animate_list = list()
+    template = "{}"
+    for i in range(len(animates)):
+        animate_list.append(template.format(md_util.md_to_html(animates[i])))
+    return "".join(animate_list)
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
-    verticals = horizontal.split(st.op_second_section)
+    verticals_divided_by_second = horizontal.split(st.op_second_section)
+    template_second = "<section>{}</section>"
 
     sections = list()
-    template = "<section>{}</section>"
 
-    for vertical in verticals:
-        if vertical.isspace():
+    for vertical_divided_by_second in verticals_divided_by_second:
+        if vertical_divided_by_second.isspace():
             continue
-        fragmetns = process_vertical(vertical)
-        html = template.format(fragmetns)
-        sections.append(html)
+        if st.op_animate_section in vertical_divided_by_second:
+            verticals_divided_by_animate = vertical_divided_by_second.split(
+                st.op_animate_section
+            )
+            template_animate = "<section data-auto-animate>{}</section>"
+            for vertical_divided_by_animate in verticals_divided_by_animate:
+                if vertical_divided_by_animate.isspace():
+                    continue
+                sections.append(
+                    template_animate.format(
+                        vertical_to_animate(vertical_divided_by_animate)
+                    )
+                )
+        elif st.op_index_fragment in vertical_divided_by_second:
+            sections.append(
+                template_second.format(vertical_to_fragment(vertical_divided_by_second))
+            )
+        else:
+            sections.append(
+                template_second.format(md_util.md_to_html(vertical_divided_by_second))
+            )
 
-    return "\n".join(sections)
+    return "".join(sections)
 
 
 def md_divide_to_horizontal(content: str):
@@ -60,22 +83,23 @@ def md_divide_to_horizontal(content: str):
         html = template.format(html_second_sections)
         sections.append(html)
 
-    return "\n".join(sections)
+    return "".join(sections)
 
 
 def process_html_elements(e):
-    for item in e("h1").parent():
+    for item in e("h1"):
         t = pq(item)
         t.wrap("<div style='width:100%'>")
         t.wrap("<div class='center middle'>")
 
     class_data = {
-        "ul": " list-disc font-serif",
-        "li": " ml-8",
-        "h2": " text-xl mt-2 pb-2 font-sans",
-        "h1": " text-2xl mt-2 font-sans",
-        "p": " font-serif my-1",
-        "pre": " bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
+        "ul": "list-disc font-serif",
+        "li": "ml-8",
+        "h2": "text-xl mt-2 pb-2 font-sans",
+        "h1": "text-2xl mt-2 font-sans",
+        "p": "font-serif my-1",
+        "pre": "bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
+        "img": "center",
     }
     for k, v in class_data.items():
         for item in e(k):
@@ -87,20 +111,20 @@ def get_body(content):
     html_first_sections = md_divide_to_horizontal(content)
     pre_html = "<html><body>{}</body></html>".format(html_first_sections)
 
+    # 处理tag
     page = pq(pre_html)
     process_html_elements(page)
 
     items = page("body").children()
-    return "\n".join([str(pq(e)) for e in items])
+    return "".join([str(pq(e)) for e in items])
 
 
 def process_image_link():
     def func(link):
         return os.path.join(
-            # st.images_foldpath,
             ".",
             "static",
-            "images",
+            st.images_foldname,
             file_util.get_image_to_target(link, st.filepath, st.images_foldpath),
         )
 
@@ -109,6 +133,7 @@ def process_image_link():
 
 def process_front_matter():
     if st.op_front_matter not in st.content:
+        st.author_template = ""
         return
 
     parts = st.content.split(st.op_front_matter)
@@ -120,10 +145,9 @@ def process_front_matter():
 
     for department in data["departments"]:
         department["img_url"] = os.path.join(
-            # st.images_foldpath,
             ".",
             "static",
-            "images",
+            st.images_foldname,
             file_util.get_image_to_target(
                 department["img_url"], st.filepath, st.images_foldpath
             ),

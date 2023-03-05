@@ -7,9 +7,10 @@ authortemp_from = os.path.join(backup_path, "template", "authortemp.html")
 
 op_first_section = "\n---\n"
 op_second_section = "\n----\n"
+op_animate_section = "\n++++\n"
 op_index_fragment = "\n--\n"
 op_front_matter = "\n+++++\n"
-pattern_animate = r"\n\[\[.?\]\]\n"
+
 
 # 文件信息
 filename = str()
@@ -19,7 +20,9 @@ output_filename = "index.html"
 output_foldpath = str()
 output_filepath = str()
 static_foldpath = str()
+images_foldname = "img"
 images_foldpath = str()
+
 
 content = str()  # MD内容
 
@@ -39,4 +42,4 @@ def Init(target_filepath):
     output_filepath = os.path.join(output_foldpath, output_filename)
 
     static_foldpath = os.path.join(output_foldpath, "static")
-    images_foldpath = os.path.join(static_foldpath, "images")
+    images_foldpath = os.path.join(static_foldpath, images_foldname)
