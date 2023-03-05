@@ -11,7 +11,7 @@ def process_html_elements(before_html):
     temp_html = "<html><body>{}</body></html>".format(before_html)
     page = pq(temp_html)
     e = page
-    for item in e("h1"):
+    for item in e("h1").parent():
         t = pq(item)
         t.wrap("<div style='width:100%'>")
         t.wrap("<div class='center middle'>")
@@ -35,9 +35,10 @@ def process_html_elements(before_html):
 
 
 def process_terminal(semi_html):
-    semi_html = process_html_elements(semi_html)
     semi_html += st.author_template
     st.author_template = ""
+    temp = "<div>" + semi_html + "</div>"
+    semi_html = process_html_elements(temp)
     return semi_html
 
 

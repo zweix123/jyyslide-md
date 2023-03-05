@@ -60,7 +60,9 @@ def md_to_html(md: str) -> str:
         "meta",
         "fenced_code",
         "codehilite",
+        # "extra",
         "attr_list",
         "tables",
+        # "toc",
     ]
     return markdown(md, extensions=extensions)
