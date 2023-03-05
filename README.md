@@ -2,17 +2,7 @@
 
 一款通过简单的Mardown扩展语法生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)的形式和主题的工具，准确的说应该是一款Reveal.js的定制化前端框架。
 
-## Table of Contents
-
-- [jyyslide-md](#jyyslide-md)
-  - [Table of Contents](#table-of-contents)
-  - [Background](#background)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Grammer](#grammer)
-  - [Example](#example)
-  - [Acknowledgement](#acknowledgement)
-  - [License](#license)
+[Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Acknowledgement](#acknowledgement) | [License](#license)
 
 ## Background
 

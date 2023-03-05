@@ -23,7 +23,7 @@ def process_html_elements(before_html):
         "h1": "text-2xl mt-2 font-sans",
         "p": "font-serif my-1",
         "pre": "bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
-        "img": "center",  # 本项目图片默认居中，如果您不想居中, 可以注释本行
+        # "img": "center",  # 设置图片是否默认居中
     }
     for k, v in class_data.items():
         for item in e(k):
