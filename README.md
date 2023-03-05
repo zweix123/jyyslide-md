@@ -24,7 +24,7 @@
 
 1. 克隆项目到本地并进入：
     ```bash
-    git clone git@github.com:zweix123/jyyslide-md.git
+    git clone https://github.com/zweix123/jyyslide-md.git
     cd jyyslide-md
     ```
 2. 利用Poetry下载第三方模块
