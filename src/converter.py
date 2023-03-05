@@ -8,19 +8,12 @@ from src.util import *
 
 
 def vertical_to_fragment(vertical: str) -> str:
-    # vertical = vertical.strip()
-    print(vertical)
-    # vertical = st.op_index_fragment + vertical
     fragments = vertical.split(st.op_index_fragment)
-    print(fragments)
+
     fragment_list = [md_util.md_to_html(fragments[0])]
     template = "<div class='fragment' data-fragment-index='{}'>{}</div>"
-    
-    
 
     for i in range(1, len(fragments)):
-        # print(fragments[i])
-        # print("======")
         fragment_list.append(template.format(i, md_util.md_to_html(fragments[i])))
 
     return "".join(fragment_list)
@@ -28,18 +21,21 @@ def vertical_to_fragment(vertical: str) -> str:
 
 def vertical_to_animate(vertical: str) -> str:
     animates = vertical.split(st.op_animate_section)
+
     animate_list = list()
     template = "{}"
+
     for i in range(len(animates)):
         animate_list.append(template.format(md_util.md_to_html(animates[i])))
+
     return "".join(animate_list)
 
 
 def horizontal_to_vertical(horizontal: str) -> str:
     verticals_divided_by_second = horizontal.split(st.op_second_section)
-    template_second = "<section>{}</section>"
 
     sections = list()
+    template_second = "<section>{}</section>"
 
     for vertical_divided_by_second in verticals_divided_by_second:
         if vertical_divided_by_second.isspace():
@@ -99,7 +95,7 @@ def process_html_elements(e):
         "h1": "text-2xl mt-2 font-sans",
         "p": "font-serif my-1",
         "pre": "bg-gray-100 overflow-x-auto rounded p-2 mb-2 mt-2",
-        "img": "center",
+        "img": "center",  # 本项目图片默认居中，如果您不想居中, 可以注释本行
     }
     for k, v in class_data.items():
         for item in e(k):

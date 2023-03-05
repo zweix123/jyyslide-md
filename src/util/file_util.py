@@ -58,7 +58,6 @@ def get_image_to_target(link: str, from_filepath: str, target_foldpath: str) -> 
     if str_util.is_url(link):
         net_util.down_image(link, os.path.join(target_foldpath, name))
     else:
-        # print(link, os.path.join(target_foldpath, name))
         shutil.copyfile(link, os.path.join(target_foldpath, name))
 
     return name
