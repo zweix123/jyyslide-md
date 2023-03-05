@@ -127,9 +127,9 @@ python main.py [Markdown文件]
   ```
   打开`test\jyy\dist\index.html`即可查看
 
-+ `test/study/slide.md`即为本项目介绍的幻灯片
++ `test/Intro/slide.md`即为本项目介绍的幻灯片
   ```bash
-  python main.py test\study\slide.md
+  python main.py test\Intro\slide.md
   ```
   打开`test\study\dist\index.html`即可查看
 
