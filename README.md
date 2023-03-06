@@ -1,6 +1,6 @@
 # jyyslide-md
 
-一款通过简约的Mardown方法生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的工具  
+一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的工具  
 准确的说应该是一款Reveal.js的定制化前端框架。
 
 [Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Acknowledgement](#acknowledgement) | [License](#license)
