@@ -1,7 +1,10 @@
 import os
 
-static_path = os.path.join(".", "src", "static")
-backup_path = os.path.join(".", "src", "backup")
+settings_abspath = os.path.split(os.path.realpath(__file__))[0]
+projects_abspath = os.path.abspath(os.path.join(settings_abspath, ".."))
+
+static_path = os.path.join(projects_abspath, "src", "static")
+backup_path = os.path.join(projects_abspath, "src", "backup")
 template_from = os.path.join(backup_path, "template", "basetemp.html")
 authortemp_from = os.path.join(backup_path, "template", "authortemp.html")
 
