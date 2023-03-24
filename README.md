@@ -1,7 +1,7 @@
 # jyyslide-md
 
-一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的工具  
-准确的说应该是一款Reveal.js的定制化前端框架。
+一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的转换工具  
+准确的说应该是一款Reveal.js的定制化前端框架（类似reveal-md，不过定制主题和蒋老师的一样）。
 
 [Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Acknowledgement](#acknowledgement) | [License](#license)
 
@@ -55,7 +55,7 @@ python main.py [Markdown文件]
 + PDF Export: [Manual](https://revealjs.com/pdf-export/)
 
 ### Grammer
->在[例子](#example)的Intro中的幻灯片有更形象的说明
+>在[例子](#example)的Intro中的幻灯片有更形象的说明（**推荐**）
 
 + 水平幻灯片使用`\n---\n`（三个）分割
 + 垂直幻灯片使用`\n----\n`（四个）分割
@@ -65,7 +65,9 @@ python main.py [Markdown文件]
   + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
 + 作者信息使用`\n+++++\n`(五个)和正文分割，使用Json格式   
   这里主要指指的是这部分  
-  ![](./img/author.png)  
+
+  <img src="./resource/author.png" width="456">  
+ 
   因为这部分是多个文字、图片、链接为一体，如果使用扩展Markdown语法的设置会让语法很凌乱。  
   实际上这样的页面只在第一页出现，即使不使用这样的语法，使用这样的形式  
   ```
@@ -73,10 +75,14 @@ python main.py [Markdown文件]
 
   >author
   ```
-  ![](./img/example_of_author.png)  
-  也能够实现差不多的意思，所以从设计上将这部分从主题抽离出来  
+  <img src="./resource/example_of_author.png" width="456">  
+  
+  在大多数场景也足够，所以从设计上将这部分从主题抽离出来  
+  
   这部分的格式如下，
+  
   >在[例子](#example)中的jyy中的Markdown文件
+  
   ```
   {
       "author": {
@@ -130,10 +136,15 @@ python main.py [Markdown文件]
           <img class="float-right" src="图片地址">
           ```
           Markdown中的格式是流的形式，即图片是占位的，这里默认左对齐和居中的图片都是占位的，但是右对齐的图片不居中
+
       其他格式调整SFTW
     + 支持数学公式
     + 支持表格
     + 关于Markdown的这个语法：大于三个的`-`是分割线`<hr>`，我们发现这和扩展语法冲突，所以这里是大于四个的`-`是分割线，且这里的分割线在HTML中是空行的效果
+
+---
+
++ 调整主题：如果您有CSS基础，可以调整蒋老师主题（主要指字号、字间距、行间距之类的微调），关于蒋老师主题的CSS文件在`dist/static/jyy/jyy.css`中。
 
 ---
 
