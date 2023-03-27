@@ -19,7 +19,7 @@
 ## Install
 
 本项目使用Python开发，模块管理使用Poetry，请确保您的机器上有版本足够的Python（3.10以上）并安装有第三方模块Poetry，同时也得益于Python，本项目应该可以运行于任何系统上。
->关于Poetry可参考我的[笔记](https://github.com/zweix123/CS-notes/blob/master/Programing-Language/Python/poetry.md)，当然下面会提供足够的用法。
+>关于Poetry可参考我的[笔记](https://github.com/zweix123/CS-notes/tree/master/Programing-Language/Python#poetry)，当然下面会提供足够的用法。
 
 1. 克隆项目到本地并进入：
     ```bash
@@ -163,17 +163,17 @@ python main.py [Markdown文件]
 
 ## Example
 
-+ `test/jyy/操作系统概述.md`即为蒋老师2022年的第一节课
++ `example/jyy/操作系统概述.md`即为蒋老师2022年的第一节课
   ```bash
-  python main.py test\jyy\操作系统概述.md
+  python main.py example\jyy\操作系统概述.md
   ```
-  打开`test\jyy\dist\index.html`即可查看
+  打开`example\jyy\dist\index.html`即可查看
 
-+ `test/Intro/slide.md`即为本项目介绍的幻灯片
++ `example/Intro/slide.md`即为本项目介绍的幻灯片
   ```bash
-  python main.py test\Intro\slide.md
+  python main.py example\Intro\slide.md
   ```
-  打开`test\Intro\dist\index.html`即可查看
+  打开`example\Intro\dist\index.html`即可查看
 
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
