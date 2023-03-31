@@ -1,4 +1,4 @@
-import os, re, json, shutil
+import os, json, shutil
 
 from pyquery import PyQuery as pq
 from jinja2 import Template

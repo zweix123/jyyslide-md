@@ -1,4 +1,5 @@
 import re
+from typing import List, Union
 
 
 def process_images(content, func):
@@ -56,7 +57,7 @@ def md_to_html(md: str) -> str:
         def extendMarkdown(self, md):
             md.parser.blockprocessors.register(BoxBlockProcessor(md.parser), "box", 175)
 
-    extensions = [
+    extensions: List[Union[str, BoxExtension]] = [
         BoxExtension(),
         "meta",
         "fenced_code",
