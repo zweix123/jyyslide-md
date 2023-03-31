@@ -175,6 +175,16 @@ python main.py [Markdown文件]
   ```
   打开`example\Intro\dist\index.html`即可查看
 
+## Develop
+
++ 根目录下的main.py是项目的入口，主体代码在src目录下，逻辑核心在converter.py，这个过程要维护很多配置信息和全局信息，所以我将其放在settings.py下，util目录则是些辅助函数
++ 不建议扩展标记，converter虽然不长，但是写的不是很优雅，可维护性低
++ 推荐从`src/util/md_util.py`入手，项目将Markdown转换成html的代码在这里，可以通过修改markdown模块相关来增加功能
+  + 比如slidev的代码特定行高亮，这就是后续的开发计划
++ 格式化使用black，静态检查使用mypy
+  + 依赖库中有很多用于静态检查的模块，如果想最小化本项目，可以重新加载依赖
+    + 这个模块`pygments`，没有出现在代码的任何地方，但是在代码高亮中发挥重要作用，如果重新加载依赖，不要忘记它。
+
 ## Acknowledgement
 + 感谢[南京大学蒋炎岩老师](https://ics.nju.edu.cn/~jyy/)录制了如此优质的[操作系统课程](https://jyywiki.cn/)
 + 感谢[顾若水](https://github.com/ruoshui255)大佬提供的[思路和大量代码](./src/backup/rouv/ruoshui255.md.py)

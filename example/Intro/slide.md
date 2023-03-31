@@ -76,7 +76,7 @@
 
 + 使用标记`\n+++++\n`和正文分割，其格式使用Json，
 
-[这个样例](https://github.com/zweix123/jyyslide-md/blob/master/test/jyy/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0.md)就是上图效果。
+[这个样例](https://github.com/zweix123/jyyslide-md/blob/master/example/jyy/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0.md)就是上图效果。
 
 ----
 
