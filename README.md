@@ -3,7 +3,7 @@
 一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的转换工具  
 准确的说应该是一款Reveal.js的定制化前端框架（类似reveal-md，不过定制主题和蒋老师的一样）。
 
-[Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Acknowledgement](#acknowledgement) | [License](#license)
+[Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Develop](#develop) | [Acknowledgement](#acknowledgement) | [License](#license)
 
 ## Background
 >可以从奥卡姆剃刀（如无必要，勿增实体）的角度考虑我开发本项目的发心。
@@ -135,11 +135,11 @@ python main.py [Markdown文件]
           ```html
           <img class="float-right" src="图片地址">
           ```
-          Markdown中的格式是流的形式，即图片是占位的，这里默认左对齐和居中的图片都是占位的，但是右对齐的图片不居中
+          Markdown中的格式是流的形式，即图片是占位的，这里默认左对齐和居中的图片都是占位的，但是右对齐的图片不占位
 
       其他格式调整SFTW
     + 支持数学公式
-    + 支持表格
+    + 支持表格（表格的格式并不好看）
     + 关于Markdown的这个语法：大于三个的`-`是分割线`<hr>`，我们发现这和扩展语法冲突，所以这里是大于四个的`-`是分割线，且这里的分割线在HTML中是空行的效果
 
 ---
