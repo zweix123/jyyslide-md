@@ -55,7 +55,9 @@ python main.py [Markdown文件]
 + PDF Export: [Manual](https://revealjs.com/pdf-export/)
 
 ### Grammer
->在[例子](#example)的Intro中的幻灯片有更形象的说明（**推荐**）
+
+[教程](https://zweix123.github.io/jyyslide-md/)：在这里可以结合效果来说明语法（**推荐**）
+>这个幻灯片就是用jyyslide-md制作而成的
 
 + 水平幻灯片使用`\n---\n`（三个）分割
 + 垂直幻灯片使用`\n----\n`（四个）分割
@@ -164,15 +166,25 @@ python main.py [Markdown文件]
 ## Example
 
 + `example/jyy/操作系统概述.md`即为蒋老师2022年的第一节课
-  ```bash
-  python main.py example\jyy\操作系统概述.md
+  ```powershell
+  python main.py example\jyy\操作系统概述.md  # win
   ```
+
+  ```bash
+  python main.py example/jyy/操作系统概述.md  # linux
+  ```
+  
   打开`example\jyy\dist\index.html`即可查看
 
 + `example/Intro/slide.md`即为本项目介绍的幻灯片
-  ```bash
-  python main.py example\Intro\slide.md
+  ```powershell
+  python main.py example\Intro\slide.md  # win
   ```
+  
+  ```bash
+  python main.py example/Intro/slide.md  # linux
+  ```
+  
   打开`example\Intro\dist\index.html`即可查看
 
 ## Develop
