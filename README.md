@@ -1,7 +1,7 @@
 # jyyslide-md
 
-一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的转换工具  
-准确的说应该是一款Reveal.js的定制化前端框架（类似reveal-md，不过定制主题和蒋老师的一样）。
+一款通过简约的Mardown方言生成具有[南大蒋炎岩老师幻灯片](http://jyywiki.cn/OS/2022/slides/1.slides#/)风格的Web幻灯片转换工具  
+准确的说是一款基于Reveal.js的定制主题Web幻灯片框架（类似reveal-md，不过定制主题和蒋老师的一样）。
 
 [Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Develop](#develop) | [Acknowledgement](#acknowledgement) | [License](#license)
 
@@ -18,7 +18,7 @@
 
 ## Install
 
-本项目使用Python开发，模块管理使用Poetry，请确保您的机器上有版本足够的Python（3.10以上）并安装有第三方模块Poetry，同时也得益于Python，本项目应该可以运行于任何系统上。
+本项目使用Python开发，模块管理使用Poetry，请确保您的机器上有版本足够的Python（**3.10以上**）并安装有第三方模块Poetry，同时也得益于Python，本项目应该可以运行于任何系统上。
 >关于Poetry可参考我的[笔记](https://github.com/zweix123/CS-notes/tree/master/Programing-Language/Python#poetry)，当然下面会提供足够的用法。
 
 1. 克隆项目到本地并进入：
@@ -32,7 +32,8 @@
     # 或者 poetry install
     ```
 
->在windows下可能出现编码问题：`控制面板` -> `区域` -> `管理` -> `更改系统区域设置` -> 打开`Beta版`
+>如果在win机器且出现乱码, 可以尝试下面的方案  
+>`控制面板` -> `区域` -> `管理` -> `更改系统区域设置` -> 打开`Beta版`
 
 ## Usage
 >请确保已经[Install](#install)好了
@@ -45,6 +46,8 @@
       ```
       之后就可以正常的运行Python代码了
   2. 使用前缀：在运行Python代码的命令前添加`python3 -m poetry run`（或者`poetry run`）
+  
+      比如[样例1](#example)中的命令应该是`poetry run python main.py example\jyy\操作系统概述.md`
 
 命令格式如下
 ```bash

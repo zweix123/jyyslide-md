@@ -38,7 +38,7 @@ def read(filepath: str) -> str:  # 读取文本文件内容
 
 def write(filepath: str, data: str) -> None:  # 向文件(覆)写内容
     if os.path.exists(filepath) is False:
-        with open(filepath, "w") as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             f.write(data)
     else:
         with open(filepath, "w", encoding=get_file_code(filepath)) as f:
