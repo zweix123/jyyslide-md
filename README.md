@@ -65,7 +65,8 @@ python main.py [Markdown文件]
 ```
 在Markdown文件同级目录会出现一个`dist`文件夹，其下有一个index.html文件和一个static文件夹，前者即为生成的“Web幻灯片，static即为其相关静态文件。网页的title和Markdown文件同名、icon即为`static/img/favicon.png`，可通过替换这个文件修改icon。
 
-+ PDF Export: [Manual](https://revealjs.com/pdf-export/)
++ PDF Export: Reveal.js [Manual](https://revealjs.com/pdf-export/)
+  > 也有第三方的工具，比如[decktape](https://github.com/astefanutti/decktape)
 
 ### Grammer
 
