@@ -1,18 +1,22 @@
-import os, json, shutil
+import json
+import os
+import shutil
 
-from pyquery import PyQuery as pq
+import yaml
 from jinja2 import Template
+from pyquery import PyQuery  # type: ignore
+
+from src.util import *
 
 from . import settings as st
-from src.util import *
 
 
 def process_html_elements(before_html):
     temp_html = "<html><body>{}</body></html>".format(before_html)
-    page = pq(temp_html)
+    page = PyQuery(temp_html)
     e = page
     for item in e("h1").parent():
-        t = pq(item)
+        t = PyQuery(item)
         t.wrap("<div style='width:100%'>")
         t.wrap("<div class='center middle'>")
     class_data = {
@@ -26,11 +30,11 @@ def process_html_elements(before_html):
     }
     for k, v in class_data.items():
         for item in e(k):
-            t = pq(item)
+            t = PyQuery(item)
             t.add_class(v)
     page = e
     items = page("body").children()
-    return "".join([str(pq(e)) for e in items])
+    return "".join([str(PyQuery(e)) for e in items])
 
 
 def process_terminal(semi_html):
@@ -152,21 +156,22 @@ def process_front_matter():
     front_matter = parts[0]
     st.content = "".join(parts[1:])
 
-    data = json.loads(front_matter)
+    try:
+        data = json.loads(front_matter)
+    except Exception as e:
+        data = yaml.load(front_matter, Loader=yaml.SafeLoader)
 
     for department in data["departments"]:
         new_name, err = file_util.get_image_to_target(
-            department["img_url"], st.filepath, st.images_foldpath
+            department["img"], st.filepath, st.images_foldpath
         )
         if err is False:
-            department["img_url"] = os.path.join(
+            department["img"] = os.path.join(
                 ".", "static", st.images_foldname, new_name
             )
         department["name"] = department["name"].replace(" ", "&#12288;")
 
-    st.author_template = st.author_template.render(
-        author=data["author"], departments=data["departments"]
-    )
+    st.author_template = st.author_template.render(author=data["author"], departments=data["departments"])  # type: ignore
 
 
 def process_static():

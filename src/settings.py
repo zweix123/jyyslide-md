@@ -1,5 +1,7 @@
 import os
 
+from jinja2 import Template
+
 settings_abspath = os.path.split(os.path.realpath(__file__))[0]
 projects_abspath = os.path.abspath(os.path.join(settings_abspath, ".."))
 
@@ -27,12 +29,12 @@ images_foldpath = str()
 
 content = str()  # MD内容
 
-template = str()  # HTML内容
+template: str | Template = str()  # HTML内容
 title = str()
 body = str()
 
 # 作者信息相关
-author_template = str()
+author_template: str | Template = str()
 
 
 def Init(target_filepath):

@@ -1,5 +1,16 @@
 {
-    "python.formatting.provider": "black",
-    "python.linting.flake8Enabled": false,
-    "python.linting.mypyEnabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        },
+    },
+    "mypy-type-checker.args": [
+        "--check-untyped-defs",
+    ],
+    "isort.args": [
+        "--profile",
+        "black",
+    ],
 }

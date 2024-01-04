@@ -5,16 +5,6 @@
 
 [Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Develop](#develop) | [Acknowledgement](#acknowledgement) | [License](#license)
 
-- [jyyslide-md](#jyyslide-md)
-  - [Background](#background)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [Grammer](#grammer)
-  - [Example](#example)
-  - [Develop](#develop)
-  - [Acknowledgement](#acknowledgement)
-  - [License](#license)
-
 ## Background
 >可以从奥卡姆剃刀（如无必要，勿增实体）的角度考虑我开发本项目的发心。
 
@@ -38,8 +28,7 @@
     ```
 2. 利用Poetry下载第三方模块
     ```bash
-    python3 -m poetry install
-    # 或者 poetry install
+    poetry install
     ```
 
 >如果在win机器且出现乱码, 可以尝试下面的方案  
@@ -51,11 +40,10 @@
 + 使用Peotry管理的Python有两种运行方式
   1. 进入虚拟环境：
       ```bash
-      python3 -m poetry shell
-      # 或者 poetry shell
+      poetry shell
       ```
       之后就可以正常的运行Python代码了
-  2. 使用前缀：在运行Python代码的命令前添加`python3 -m poetry run`（或者`poetry run`）
+  2. 使用前缀：在运行Python代码的命令前添加`poetry run`
   
       比如[样例1](#example)中的命令应该是`poetry run python main.py example\jyy\操作系统概述.md`
 
@@ -65,8 +53,7 @@ python main.py [Markdown文件]
 ```
 在Markdown文件同级目录会出现一个`dist`文件夹，其下有一个index.html文件和一个static文件夹，前者即为生成的“Web幻灯片，static即为其相关静态文件。网页的title和Markdown文件同名、icon即为`static/img/favicon.png`，可通过替换这个文件修改icon。
 
-+ PDF Export: Reveal.js [Manual](https://revealjs.com/pdf-export/)
-  > 也有第三方的工具，比如[decktape](https://github.com/astefanutti/decktape)
++ PDF Export: [Manual](https://revealjs.com/pdf-export/)
 
 ### Grammer
 
@@ -99,7 +86,7 @@ python main.py [Markdown文件]
   
   >在[例子](#example)中的jyy中的Markdown文件
   
-  ```
+  ```json
   {
       "author": {
           "name": "蒋炎岩",
@@ -109,20 +96,41 @@ python main.py [Markdown文件]
           {
               "name": "  南京大学  ",
               "url": "https://www.nju.edu.cn/main.htm",
-              "img_url": "./img/nju-logo.jpg"
+              "img": "./img/nju-logo.jpg"
           },
           {
               "name": "计算机科学与技术系",
               "url": "https://cs.nju.edu.cn/main.htm",
-              "img_url": "./img/njucs-logo.jpg"
+              "img": "./img/njucs-logo.jpg"
           },
           {
               "name": "计算机软件研究所",
               "url": "https://www.nju.edu.cn/main.htm",
-              "img_url": "./img/ics-logo.png"
+              "img": "./img/ics-logo.png"
           }
       ]
   }
+  ```
+
+  现也支持YAML格式（建议）
+
+  ```yaml
+  author:
+    name: 蒋炎岩
+    url: https://ics.nju.edu.cn/~jyy/
+
+  departments:
+    - name: "  南京大学  "
+      url: https://www.nju.edu.cn/main.htm,
+      img: ./img/nju-logo.jpg
+
+    - name: 计算机科学与技术系
+      url: https://cs.nju.edu.cn/main.htm,
+      img: ./img/njucs-logo.jpg
+
+    - name: 计算机软件研究所
+      url: https://www.nju.edu.cn/main.htm,
+      img: ./img/ics-logo.png
   ```
 
 ---
@@ -180,23 +188,17 @@ python main.py [Markdown文件]
 ## Example
 
 + `example/jyy/操作系统概述.md`即为蒋老师2022年的第一节课
-  ```powershell
-  python main.py example\jyy\操作系统概述.md  # win
-  ```
 
   ```bash
-  python main.py example/jyy/操作系统概述.md  # linux
+  python main.py example/jyy/操作系统概述.md
   ```
   
   打开`example\jyy\dist\index.html`即可查看
 
 + `example/Intro/slide.md`即为本项目介绍的幻灯片
-  ```powershell
-  python main.py example\Intro\slide.md  # win
-  ```
-  
+
   ```bash
-  python main.py example/Intro/slide.md  # linux
+  python main.py example/Intro/slide.md
   ```
   
   打开`example\Intro\dist\index.html`即可查看
