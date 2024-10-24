@@ -160,6 +160,9 @@ def process_front_matter():
         data = json.loads(front_matter)
     except Exception as e:
         data = yaml.load(front_matter, Loader=yaml.SafeLoader)
+    
+    if "departments" not in data:
+        data["departments"] = []
 
     for department in data["departments"]:
         new_name, err = file_util.get_image_to_target(
