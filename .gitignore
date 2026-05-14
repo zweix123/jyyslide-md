@@ -1,10 +1,12 @@
 .venv/
+venv/
 
-.vscode/launch.json
+.vscode
 
 **/.mypy_cache/
 
 **/__pycache__/
 **/dist/
+*egg-info
 
 **/.DS_Store

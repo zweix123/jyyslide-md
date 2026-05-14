@@ -1,0 +1,3 @@
+include README.md License
+recursive-include src/static *
+recursive-include src/backup/template *

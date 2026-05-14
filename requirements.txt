@@ -1,0 +1,12 @@
+requests
+jinja2
+markdown
+pyquery
+pygments
+lxml
+pyyaml
+types-markdown
+types-requests
+types-pyyaml
+livereload
+

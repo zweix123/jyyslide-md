@@ -8,7 +8,7 @@ from pyquery import PyQuery  # type: ignore
 
 from src.util import *
 
-from . import settings as st
+from src import settings as st
 
 
 def process_html_elements(before_html):

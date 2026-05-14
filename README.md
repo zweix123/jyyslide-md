@@ -3,14 +3,13 @@
 ❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
 
 该项目目前有一些亟需优化的地方，我已经有了方案，但是由于工作，暂时没有精力实现，请同好们敬请期待。
-1. 支持通过`pip`下载并通过命令使用
-    >并不是所有人都了解Python、Poetry
-2. 命令支持检测文件修改并自动编译（甚至自动刷新浏览器）
-    >就像前端相关命令一样自然
-3. 优化架构，初版开发个人的软件工程水平一般（当前现在也一般但是有一定提高）
-4. 拓展**渐变垂直幻灯片**的功能，用户常用渐变实现一张幻灯片的不同部分的先后出现，但是目前需要将不同部分作为多个页，很麻烦
-5. 开发VSCode的插件
-    >就像上面说的，并不是所有人都了解命令行
+
+1. 优化架构，初版开发个人的软件工程水平一般（当前现在也一般但是有一定提高）
+
+2. 拓展**渐变垂直幻灯片**的功能，用户常用渐变实现一张幻灯片的不同部分的先后出现，但是目前需要将不同部分作为多个页，很麻烦
+
+3. 开发VSCode的插件
+    > 就像上面说的，并不是所有人都了解命令行
 
 ❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗❗
 
@@ -20,7 +19,8 @@
 [Background](#background) | [Install](#install) | [Usage](#usage) | [Grammer](#grammer) | [Example](#example) | [Develop](#develop) | [Acknowledgement](#acknowledgement) | [License](#license)
 
 ## Background
->可以从奥卡姆剃刀（如无必要，勿增实体）的角度考虑我开发本项目的发心。
+
+> 可以从奥卡姆剃刀（如无必要，勿增实体）的角度考虑我开发本项目的发心。
 
 说起幻灯片，首先想到的是微软的PowerPoint，PPT几乎成了幻灯片的代名词。但是在使用过程中我们会发现，它提供的很多的功能，为了使用这些功能需要很高的学习成本，但大多数场景我们用不到这么多功能；同时在使用别人的PPT模板是因为我们对功能的不熟练而不能展现模板PPT的全部效果。在幻灯片领域有类似Markdown之于Word的框架嘛？
 
@@ -32,44 +32,78 @@
 
 ## Install
 
-本项目使用Python开发，模块管理使用Poetry，请确保您的机器上有版本足够的Python（**3.10以上**）并安装有第三方模块Poetry，同时也得益于Python，本项目应该可以运行于任何系统上。
->关于Poetry可参考我的[笔记](https://github.com/zweix123/CS-notes/tree/master/Programing-Language/Python#poetry)，当然下面会提供足够的用法。
+<!-- 本项目使用Python开发，模块管理使用Poetry，请确保您的机器上有版本足够的Python（**3.10以上**）并安装有第三方模块Poetry，同时也得益于Python，本项目应该可以运行于任何系统上。 -->
+
+本项目使用Python开发。得益于Python，本项目应该可以运行于任何系统上。
+<!-- >关于Poetry可参考我的[笔记](https://github.com/zweix123/CS-notes/tree/master/Programing-Language/Python#poetry)，当然下面会提供足够的用法。 -->
+
+### 从源代码安装
+
+本项目建议使用虚拟环境安装，简单的venv即可。
 
 1. 克隆项目到本地并进入：
+
     ```bash
     git clone https://github.com/zweix123/jyyslide-md.git
     cd jyyslide-md
     ```
-2. 利用Poetry下载第三方模块
+
+2. 安装：
+
     ```bash
-    poetry install
+    pip install -e .
     ```
+
+    过程中会自动安装好依赖件。
+<!-- 2. 利用Poetry下载第三方模块 -->
+<!--     ```bash -->
+<!--     poetry install -->
+<!--     ``` -->
+
+<!-- ### 直接从pip安装 -->
+<!---->
+<!-- 执行： -->
+<!---->
+<!-- ```bash -->
+<!-- pip install jyyslide -->
+<!-- ``` -->
 
 >如果在win机器且出现乱码, 可以尝试下面的方案  
 >`控制面板` -> `区域` -> `管理` -> `更改系统区域设置` -> 打开`Beta版`
 
 ## Usage
+
 >请确保已经[Install](#install)好了
 
-+ 使用Peotry管理的Python有两种运行方式
-  1. 进入虚拟环境：
-      ```bash
-      poetry shell
-      ```
-      之后就可以正常的运行Python代码了
-  2. 使用前缀：在运行Python代码的命令前添加`poetry run`
-  
-      比如[样例1](#example)中的命令应该是`poetry run python main.py example\jyy\操作系统概述.md`
+<!-- + 使用Peotry管理的Python有两种运行方式 -->
+<!--   1. 进入虚拟环境： -->
+<!--       ```bash -->
+<!--       poetry shell -->
+<!--       ``` -->
+<!--       之后就可以正常的运行Python代码了 -->
+<!--   2. 使用前缀：在运行Python代码的命令前添加`poetry run` -->
+<!---->
+<!--       比如[样例1](#example)中的命令应该是`poetry run python main.py example\jyy\操作系统概述.md` -->
 
 命令格式如下
+
 ```bash
-python main.py [Markdown文件]
+usage: main.py [-h] [--host HOST] [--port PORT] filepath
+
+positional arguments:
+  filepath     file path to target markdown file.
+
+options:
+  -h, --help   show this help message and exit
+  --host HOST  host ip address
+  --port PORT  port
 ```
+
 在Markdown文件同级目录会出现一个`dist`文件夹，其下有一个index.html文件和一个static文件夹，前者即为生成的“Web幻灯片，static即为其相关静态文件。网页的title和Markdown文件同名、icon即为`static/img/favicon.png`，可通过替换这个文件修改icon。
 
 + PDF Export: [Manual](https://revealjs.com/pdf-export/)
 
-### Grammer
+### Grammar
 
 [教程](https://zweix123.github.io/jyyslide-md/)：在这里可以结合效果来说明语法（**推荐**）
 >这个幻灯片就是用jyyslide-md制作而成的
@@ -80,18 +114,20 @@ python main.py [Markdown文件]
 + 在同一张幻灯片中依次出现的部分使用`\n--\n`(两个)分割
   + 具体分割方式是从分割符到下一个分隔符或者本张幻灯片末尾的位置
   + 更多样式见[reveal.js官网对Fragments的解释](https://revealjs.com/fragments/)
-+ 作者信息使用`\n+++++\n`(五个)和正文分割，使用Json格式   
++ 作者信息使用`\n+++++\n`(五个)和正文分割，使用Json格式
   这里主要指指的是这部分  
 
   <img src="./resource/author.png" width="456">  
- 
+
   因为这部分是多个文字、图片、链接为一体，如果使用扩展Markdown语法的设置会让语法很凌乱。  
   实际上这样的页面只在第一页出现，即使不使用这样的语法，使用这样的形式  
-  ```
+
+  ```markdown
   # Title
 
   >author
   ```
+
   <img src="./resource/example_of_author.png" width="456">  
   
   在大多数场景也足够，所以从设计上将这部分从主题抽离出来  

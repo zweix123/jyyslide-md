@@ -27,7 +27,7 @@ def process_images(content, func):
         new_name, err = func(link)
         return pre + (new_name if err is False else link) + suf
 
-    patten = r"!\[.*?\]\((.*?)\)|<img.*?src=[\'\"](.*?)[\'\"].*?>"
+    patten = r"!\[.*?\]\((.*?)\)|<img.*?src=[\'\"](.*?)[\'\"][\s\S]*?>"
     return re.sub(patten, modify, content)
 
 

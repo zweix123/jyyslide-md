@@ -1,5 +1,5 @@
 import argparse
-from src.converter import converter
+from converter import converter
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

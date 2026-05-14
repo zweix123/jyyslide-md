@@ -1,6 +1,6 @@
 import os, shutil, uuid
 from typing import Optional, Tuple
-from . import str_util, net_util
+from src.util import str_util, net_util
 
 
 def get_files_under_folder(
